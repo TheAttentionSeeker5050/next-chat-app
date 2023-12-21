@@ -31,11 +31,21 @@ jobs:
       - name: Run Tests
         run: npm test
 
+      - name: Run Tests
+        run: npm test
+        id: test-result
+
       - name: Throw Error on Test Failure
-        run: exit $(npm test --silent)
+        run: |
+          if [ ${{ steps.test-result.outcome }} == 'failure' ]; then
+            echo "Error: Tests failed. Exiting test execution."
+            exit 1
+          fi
 
       - name: Prevent Merge on Test Failure
-        run: echo "Error:/ Tests failed. Merging to main is not allowed." && exit 1
+        run: |
+          echo "Error: Tests failed. Merging to main is not allowed."
+          exit 1
         if: github.event_name == 'pull_request' && failure()
 
   failure:
