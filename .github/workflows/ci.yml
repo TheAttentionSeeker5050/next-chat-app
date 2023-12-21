@@ -30,9 +30,6 @@ jobs:
 
       - name: Run Tests
         run: npm test
-
-      - name: Run Tests
-        run: npm test
         id: test-result
 
       - name: Throw Error on Test Failure
