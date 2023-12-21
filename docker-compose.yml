@@ -10,6 +10,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: your_username
       MONGO_INITDB_ROOT_PASSWORD: your_password
-      MONGO_INITDB_DATABASE: chatDb
+      MONGO_INITDB_DATABASE: nextChatDb
     volumes:
       - ./mongo-init-scripts:/docker-entrypoint-initdb.d
