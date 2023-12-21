@@ -22,7 +22,7 @@ This chat application allows users to engage in real-time conversations in a sin
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/your-username/your-chat-app.git
+git clone github.com/TheAttentionSeeker5050/next-chat-app
 ```
 
 2. **Install dependencies:**
