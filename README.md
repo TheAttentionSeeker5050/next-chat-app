@@ -1,40 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Chat Application (Work in Progress)
+
+A real-time chat application built with Next.js, MongoDB, and Socket.io.
+
+## Description
+
+This chat application allows users to engage in real-time conversations in a single chat room. Users can create, read, update, and delete messages, which can include text, images, or files. Before entering the chat room, users are prompted to enter a username, which is saved to the application context. This step only occurs if the username is not already set.
+
+**Note: This project is a work in progress, many of the features are being added as it advances.**
+
+
+## Table of Contents
+
+- [Chat Application (Work in Progress)](#chat-application-work-in-progress)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Getting Started](#getting-started)
+  - [Features](#features)
+  - [Testing Focus](#testing-focus)
 
 ## Getting Started
 
-First, run the development server:
-
+1. **Clone the repository:**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/your-chat-app.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencies:**
+```bash
+npm install
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+3. **Run the development server:**
+```bash
+npm run dev
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+4. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Real-time chat using Socket.io.
+- CRUD operations for messages (text, images, files).
+- Single chat room for user interaction.
+- User authentication with a context-based username.
+- Night mode for a personalized chat experience.
+- Tailwind CSS for styling.
+- Linting validation for code quality.
 
-## Learn More
+## Testing Focus
 
-To learn more about Next.js, take a look at the following resources:
+This project follows a test-driven development approach, with a focus on creating a robust and reliable chat application. GitHub Actions are set up to run tests on the main branch, ensuring code quality before merging.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**More details on deployment, local setup, and additional features will be provided later in the project.**
