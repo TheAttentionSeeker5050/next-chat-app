@@ -1,10 +1,10 @@
-# Chat Application (Work in Progress)
+# Next.js and Mongo Chat Application (Work in Progress)
 
 A real-time chat application built with Next.js, MongoDB, and Socket.io.
 
 ## Description
 
-This chat application allows users to engage in real-time conversations in a single chat room. Users can create, read, update, and delete messages, which can include text, images, or files. Before entering the chat room, users are prompted to enter a username, which is saved to the application context. This step only occurs if the username is not already set.
+This chat application allows users to engage in real-time conversations in a single chat room. Users can create, read, update, and delete messages, which can include text, images, or files. Before entering the chat room, users are prompted to enter a username, which is saved to the application context. This step only occurs if the username is not already set. This web service also implements testing and CI/CD using GitHub Actions and Jest. This is to protect the main branch, and to ensure app components and methods run and return responses as expected before any deployment to the cloud service provider. In this case I will be making use of Vercel to host the next.js, and mongo atlas for the Db.
 
 **Note: This project is a work in progress, many of the features are being added as it advances.**
 
