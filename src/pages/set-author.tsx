@@ -1,40 +1,24 @@
-import Image from 'next/image';
 import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
 // useAppContext is a custom hook that returns the context
 import {useAppContext} from '@/context/MyContext';
-
-// import navigation hook
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import SetAuthorForm from '@/components/setAuthorForm';
 
 
-
-export default function Home() {
+export default function SetAuthor() {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
   const { author, socketId, nightMode } = useAppContext();
-
-  // if author is empty string, redirect to set-author page, use navigate hook
-  const router = useRouter()
-  
-
-  useEffect(() => {
-
-    if (author === '') {
-      // use the navigate hook to redirect to set-author page
-      router.push('/set-author')
-    }
-  }, [author]);
-  
 
   return (
     <main
       className={`${inter.className}`}
     >
-      Page Content
+      <h1>Set Author</h1>
+
+      <SetAuthorForm />
     </main>
   );
 };
