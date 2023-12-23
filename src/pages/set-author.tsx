@@ -5,7 +5,10 @@ const inter = Inter({ subsets: ['latin'] });
 
 // useAppContext is a custom hook that returns the context
 import {useAppContext} from '@/context/MyContext';
-import SetAuthorForm from '@/components/setAuthorForm';
+import SetAuthorForm from '@/components/SetAuthorForm';
+import Head from 'next/head';
+
+
 
 
 export default function SetAuthor() {
@@ -14,11 +17,17 @@ export default function SetAuthor() {
   const { author, socketId, nightMode, setAuthor } = useAppContext();
 
   return (
-    <main
-      className={`${inter.className} flex flex-col justify-center gap-8 items-center mt-24`}
-    >
-      <h1 className='text-2xl'>Set Author Name</h1>
-      <SetAuthorForm author={author} setAuthor={setAuthor} /> 
-    </main>
+    <>
+      <Head>
+        <title>Next.js Chat App - Set Author</title>
+        <meta name="description" content="Set Author" />
+      </Head>
+      <main
+        className={`${inter.className} flex flex-col justify-center gap-8 items-center mt-24`}
+        >
+        <h1 className='text-2xl'>Set Author Name</h1>
+        <SetAuthorForm author={author} setAuthor={setAuthor} /> 
+      </main>
+    </>
   );
 };
