@@ -1,10 +1,10 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - '*'
-      - '!main'  # Exclude 'main' branch
+  # push:
+  #   branches:
+  #     - '*'
+  #     - '!main'  # Exclude 'main' branch
   pull_request:
     branches:
       - 'main'
