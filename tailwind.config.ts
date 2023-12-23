@@ -22,15 +22,17 @@ const config: Config = {
       // as this is a design system for a chat application, I want to use grayish background colors, that contrast well with white text balloons for other users and blue text balloons for the current user, as well as contrasting titles, for night mode, I want to use a dark gray background, more vivid blue and gray text balloons, and the text to contrast well with the background and balloons respectively
       colors: {
         // light mode
-        'back-light': '#F5F5F5',
-        'back-secondary-light': '#FFFFFF',
+        'back-light': '#f3f1f1',
+        'back-secondary-light': '#ebebeb',
         'fore-titles-light': '#000000',
-        'fore-secondary-light': '#828282',
+        'fore-secondary-light': '#d1d5db',
+        'fore-tertiary-light': '#374151',
         'fore-blue-balloons-light': '#FFFFFF',
         'fore-gray-balloons-light': '#000000',
         'blue-balloons-light': '#2F80ED',
         'blue-balloons-light-hover': '#2D9CDB',
         'gray-balloons-light': '#E0E0E0',
+        'gray-balloons-light-hover': '#BDBDBD',
         // dark mode
         'back-dark': '#1A1A1A',
         'back-secondary-dark': '#2D2D2D',
