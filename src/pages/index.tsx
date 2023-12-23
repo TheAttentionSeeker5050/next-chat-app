@@ -15,6 +15,7 @@ import OtherUserMessageBubble from '@/components/OtherUserMessageBubble';
 // import document hook components
 import Head from 'next/head';
 import NewMessageComponent from '@/components/NewMessageComponent';
+import DarkThemeToggleSwitch from '@/components/DarkThemeToggleSwitch';
 
 
 export default function Home() {
@@ -42,7 +43,10 @@ export default function Home() {
         <meta name="description" content="Group Conversation" />
       </Head>
       <main className={`${inter.className} flex flex-col gap-8`}>
-        <h1 className='text-2xl font-semibold text-center bg-back-secondary-light pt-10 pb-20'>Group Conversation</h1>
+        <nav className="bg-back-secondary-light pt-8 pb-10 flex flex-col gap-4 items-center">
+          <h1 className='text-3xl font-semibold '>Group Conversation</h1>
+          <DarkThemeToggleSwitch />
+        </nav>
 
         <section className="flex flex-col w-full px-6">
           <div className="self-end ">
