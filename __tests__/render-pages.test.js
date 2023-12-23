@@ -1,15 +1,28 @@
-import Home from "../src/pages/index";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor, act } from "@testing-library/react";
 import { describe } from "node:test";
 import {AppContextProvider} from "@/context/MyContext";
+import { useRouter } from "next/router";
 
-// import 404 page
+// import the pages to test
+import Home from "@/pages/index";
 import Custom404 from "@/pages/404";
+import Custom500 from "@/pages/500";
+
+// mock the next router
+jest.mock('next/router', () => ({
+    __esModule: true,
+    useRouter: jest.fn(),
+}));
 
 // if can start the Main page, and get the main tag, it means that the app is working
 describe("test-render-home-page", () => {
-    it("should render without throwing an error", async () => {
+    it("should render home page without throwing an error", async () => {
+
+        // mock the useRouter hook 
+        useRouter.mockReturnValue({
+            push: jest.fn(),
+          });
 
         // render the app
         render(
@@ -19,6 +32,40 @@ describe("test-render-home-page", () => {
         );
         
         // expect to get main tag content, no matter what contains
+        expect(screen.getByRole("main")).toBeInTheDocument();
+    });
+});
+
+// test if can get error pages using calling components
+describe("test-render-error-page-404", () => {
+    it("should render page 404 without throwing an error", async () => {
+
+        // render the app
+        render(
+            <AppContextProvider>
+                <Custom404 />    
+            </AppContextProvider>
+        );
+        
+        // expect to get main tag content, no matter what contains
+        // use id error-page-wrapper to get the content
+        expect(screen.getByRole("main")).toBeInTheDocument();
+    });
+});
+
+// test if can get the 500 error page
+describe("test-render-error-page-500", () => {
+    it("should render page 500 without throwing an error", async () => {
+
+        // render the app
+        render(
+            <AppContextProvider>
+                <Custom500 />    
+            </AppContextProvider>
+        );
+        
+        // expect to get main tag content, no matter what contains
+        // use id error-page-wrapper to get the content
         expect(screen.getByRole("main")).toBeInTheDocument();
     });
 });
