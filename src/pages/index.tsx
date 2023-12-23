@@ -14,6 +14,7 @@ import OtherUserMessageBubble from '@/components/OtherUserMessageBubble';
 
 // import document hook components
 import Head from 'next/head';
+import NewMessageComponent from '@/components/NewMessageComponent';
 
 
 export default function Home() {
@@ -50,7 +51,16 @@ export default function Home() {
           <div className="self-start ">
             <OtherUserMessageBubble />
           </div>
+          <div className="self-end ">
+            <CurrentUserMessageBubble />
+          </div>
+          <div className="self-start ">
+            <OtherUserMessageBubble />
+          </div>
+          
         </section>
+
+        <NewMessageComponent />
       </main>
     </>
   );
