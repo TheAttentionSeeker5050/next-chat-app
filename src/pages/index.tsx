@@ -41,10 +41,16 @@ export default function Home() {
         <title>Next.js Chat App - Group Conversation</title>
         <meta name="description" content="Group Conversation" />
       </Head>
-      <main className={`${inter.className} flex flex-col gap-8 mt-24`}>
-        <h1 className='text-2xl font-semibold text-center'>Group Conversation</h1>
+      <main className={`${inter.className} flex flex-col gap-8`}>
+        <h1 className='text-2xl font-semibold text-center bg-back-secondary-light pt-10 pb-20'>Group Conversation</h1>
 
         <section className="flex flex-col w-full px-6">
+          <div className="self-end ">
+            <CurrentUserMessageBubble />
+          </div>
+          <div className="self-start ">
+            <OtherUserMessageBubble />
+          </div>
           <div className="self-end ">
             <CurrentUserMessageBubble />
           </div>

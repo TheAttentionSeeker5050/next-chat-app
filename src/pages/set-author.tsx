@@ -23,7 +23,7 @@ export default function SetAuthor() {
         <meta name="description" content="Set Author" />
       </Head>
       <main
-        className={`${inter.className} flex flex-col justify-center gap-8 items-center mt-24`}
+        className={`${inter.className} flex flex-col justify-center gap-8 items-center mt-10`}
         >
         <h1 className='text-2xl'>Set Author Name</h1>
         <SetAuthorForm author={author} setAuthor={setAuthor} /> 
