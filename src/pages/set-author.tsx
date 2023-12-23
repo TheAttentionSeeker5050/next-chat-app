@@ -14,9 +14,9 @@ export default function SetAuthor() {
 
   return (
     <main
-      className={`${inter.className}`}
+      className={`${inter.className} flex flex-col justify-center gap-8 items-center mt-24`}
     >
-      <h1>Set Author</h1>
+      <h1 className='text-2xl'>Set Author Name</h1>
 
       <SetAuthorForm />
     </main>

@@ -18,13 +18,14 @@ export default function SetAuthorForm() {
     }
 
     return (
-        <div>
+        // <section className="flex flex-col gap-6">
+            <form onSubmit={submitHandler} className="flex flex-col gap-6">
 
-            <form onSubmit={submitHandler}>
-                <label htmlFor="author">Author</label>
-                <input type="text" name="author" id="author" />
-                <button type="submit">Submit</button>
+                <p>Enter your name to join the chat</p>
+                <input type="text" name="author" id="author" placeholder="Enter author name" className="border-2 pl-3 pr-2 border-fore-secondary-light py-1 rounded-lg" />
+                <button type="submit" className="text-fore-blue-balloons-light bg-blue-balloons-light rounded-xl px-2 py-1">Submit</button>
+
             </form>
-        </div>
+        // </section>
     );
 }
