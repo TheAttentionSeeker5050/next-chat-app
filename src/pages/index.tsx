@@ -17,17 +17,18 @@ export default function Home() {
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
   const { author, socketId, nightMode } = useAppContext();
 
-  // if author is empty string, redirect to set-author page, use navigate hook
-  const router = useRouter()
   
-
+  // if author is empty string, redirect to set-author page, use navigate hook
+  let router = useRouter();
+  
+  
   useEffect(() => {
-
+    
     if (author === '') {
       // use the navigate hook to redirect to set-author page
-      router.push('/set-author')
+      router.push('/set-author', undefined, { shallow: true });
     }
-  }, [author]);
+  }, [author, router]);
   
 
   return (
