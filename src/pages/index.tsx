@@ -23,6 +23,8 @@ export default function Home() {
   
   
   useEffect(() => {
+
+    console.log('author is: ', author);
     
     if (author === '') {
       // use the navigate hook to redirect to set-author page

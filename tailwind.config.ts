@@ -29,6 +29,7 @@ const config: Config = {
         'fore-blue-balloons-light': '#FFFFFF',
         'fore-gray-balloons-light': '#000000',
         'blue-balloons-light': '#2F80ED',
+        'blue-balloons-light-hover': '#2D9CDB',
         'gray-balloons-light': '#E0E0E0',
         // dark mode
         'back-dark': '#1A1A1A',
