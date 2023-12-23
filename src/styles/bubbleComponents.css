@@ -1,0 +1,29 @@
+.message-bubble {
+    position: relative;
+    padding: 12px;
+    margin: 8px;
+    border-radius: 8px;
+    max-width: 70%; /* Adjust the maximum width as needed */
+  }
+  
+  .current-user::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -10px; /* Adjust the spacing from the edge */
+    margin-top: -10px; /* Half of the arrow height */
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent currentColor; /* Use currentColor for the arrow color */
+    border-style: solid;
+  }
+  
+  .other-user::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -10px; /* Adjust the spacing from the edge */
+    margin-top: -10px; /* Half of the arrow height */
+    border-width: 10px 10px 10px 0;
+    border-color: transparent currentColor transparent transparent; /* Use currentColor for the arrow color */
+    border-style: solid;
+  }
