@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faCircleArrowRight, faPlay, faRightLong } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function NewMessageComponent() {
@@ -12,7 +14,12 @@ export default function NewMessageComponent() {
                     className="flex-grow mr-2 outline-none focus:outline-none"
                     placeholder="Type a message..."
                 />
-                <button className="bg-blue-balloons-light hover:bg-blue-balloons-light-hover text-white rounded-md shadow-sm p-2">Send</button>
+                <button className="bg-blue-balloons-light hover:bg-blue-balloons-light-hover text-white rounded-md shadow-sm py-1 px-3">
+                    {/* <FontAwesomeIcon icon={faCircleArrowRight} /> */}
+                    <FontAwesomeIcon icon={faPlay} />
+                    {/* <FontAwesomeIcon icon={faArrowRight} /> */}
+                    {/* <FontAwesomeIcon icon={faRightLong} /> */}
+                </button>
             </div>
         </form>
     )
