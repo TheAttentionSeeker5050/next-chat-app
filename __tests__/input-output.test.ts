@@ -26,27 +26,27 @@ describe('createUUID function test', () => {
 // test - validate author name
 describe('validateAuthorName function test', () => {
     it('should return true for valid author name', () => {
-        expect(validateAuthorName('validAuthorName')).toBe(true);
+        expect(validateAuthorName('validAuthorName').success).toBe(true);
     });
 
     it('should return true for valid author name with numbers', () => {
-        expect(validateAuthorName('validAuthorName123')).toBe(true);
+        expect(validateAuthorName('validAuthorName123').success).toBe(true);
     });
 
     it('should return false for empty author name', () => {
-        expect(validateAuthorName('')).toBe(false);
+        expect(validateAuthorName('').success).toBe(false);
     });
 
     it('should return false for author name with more than 35 characters', () => {
-        expect(validateAuthorName('a'.repeat(36))).toBe(false);
+        expect(validateAuthorName('a'.repeat(36)).success).toBe(false);
     });
 
     it('should return false for author name with special characters', () => {
-        expect(validateAuthorName('invalid author name!')).toBe(false);
+        expect(validateAuthorName('invalid author name!').success).toBe(false);
     });
 
     it('should return false for author name with spaces', () => {
-        expect(validateAuthorName('invalid author name')).toBe(false);
+        expect(validateAuthorName('invalid author name').success).toBe(false);
     });
 });
 
