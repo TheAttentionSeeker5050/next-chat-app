@@ -12,7 +12,7 @@ export const formatDate = (date: Date): string => {
     }
     // if the datetime is less than 1 hour ago, return # minutes ago
     else if (date.getTime() > Date.now() - 60*60*1000) {
-        return `${Math.floor((Date.now() - date.getTime()) / 60*1000)} minutes ago`;
+        return `${Math.floor((Date.now() - date.getTime()) / (60*1000))} minutes ago`;
     }
     // if the datetime is today, return only the time in format HH:MM
     else if (date.toDateString() === new Date().toDateString()) {
@@ -26,5 +26,5 @@ export const formatDate = (date: Date): string => {
     else {
         return date.toLocaleDateString();
     }
-    
+
 };

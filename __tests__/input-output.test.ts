@@ -6,6 +6,7 @@ import {describe, expect, test, it} from '@jest/globals';
 import { createUUID } from '@/utils/formatters/createUUID';
 import { validateUUID } from '@/utils/validators/validateUUID';
 import { validateAuthorName } from "@/utils/validators/validateAuthorName";
+import { validateText } from "@/utils/validators/validateText";
 
 
 
@@ -47,4 +48,29 @@ describe('validateAuthorName function test', () => {
     it('should return false for author name with spaces', () => {
         expect(validateAuthorName('invalid author name')).toBe(false);
     });
+});
+
+// test - validate text, this is the text of the messages
+describe('validateText function test', () => {
+    it('should return true for valid text', () => {
+        expect(validateText('valid text')).toBe(true);
+    });
+
+    it('should return true for text with numbers', () => {
+        expect(validateText('valid text123')).toBe(true);
+    });
+
+    it('should return true for text with special characters', () => {
+        expect(validateText('valid text!>}$#@')).toBe(true);
+    });
+
+    it('should return false for empty text', () => {
+        expect(validateText('')).toBe(false);
+    });
+
+    it('should return false for text with more than 600 characters', () => {
+        expect(validateText('a'.repeat(601))).toBe(false);
+    });
+
+    
 });
