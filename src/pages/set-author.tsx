@@ -1,5 +1,5 @@
 import { Inter } from 'next/font/google';
-import { Dispatch, FormEvent, SetStateAction } from 'react'; // Add the import statement for Dispatch and SetStateAction
+import { Dispatch, FormEvent, SetStateAction, useState } from 'react'; // Add the import statement for Dispatch and SetStateAction
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -9,6 +9,12 @@ import SetAuthorForm from '@/components/SetAuthorForm';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+// validate author function
+import { validateAuthorName } from '@/utils/validators/validateAuthorName';
+
+// zod error type 
+import { ZodError } from 'zod';
+
 
 
 
@@ -16,6 +22,9 @@ export default function SetAuthor() {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
   const { author, socketId, nightMode, setAuthor } = useAppContext();
+
+  // state variables
+  const [error, setError] = useState<string | null>(null);
 
   // use the navigate hook to redirect to set-author page once author is set
   let router = useRouter();
@@ -30,6 +39,22 @@ export default function SetAuthor() {
       if (!newAuthor.trim()) {
           alert('Author name cannot be empty');
           return;
+      }
+
+      const validateResult = validateAuthorName(newAuthor);
+
+      // use the validate author function to check if author is valid
+      if (validateResult.success === false) {
+        // alert print message inside the validateAuthorName function zod error, optional error zod error, optional data string
+        const validationResult = validateAuthorName(newAuthor) as { success: boolean; error?: ZodError<string>; data?: any };
+        
+        if (validationResult.success === false) {
+          // print error message inside zo error if it exists
+          if (validationResult.error) {
+            setError(validationResult.error.issues[0].message);
+          }
+        }
+        return;
       }
 
       setAuthor(newAuthor);
@@ -49,6 +74,8 @@ export default function SetAuthor() {
         >
         <h1 className='text-2xl'>Set Author Name</h1>
         <SetAuthorForm author={author} setAuthor={setAuthor} submitHandler={submitHandler}/> 
+
+        {error && <p className="text-red-500">{error}</p>}
       </main>
     </>
   );
