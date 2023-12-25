@@ -34,6 +34,7 @@ export default function Home() {
       // use the navigate hook to redirect to set-author page
       router.push('/set-author', undefined, { shallow: true });
     }
+    
   }, [author, router]);
 
   return (

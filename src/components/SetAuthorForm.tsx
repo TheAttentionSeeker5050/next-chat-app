@@ -1,37 +1,15 @@
-import { FormEvent, FormEventHandler } from "react";
+import { FormEventHandler } from "react";
 import React from "react";
 
-import { useRouter } from 'next/router';
 
 interface SetAuthorFormProps {
     author: string;
     setAuthor: (newAuthor: string) => void;
+    submitHandler: FormEventHandler<HTMLFormElement>;
   }
 
 // setAuthorReusableComponent
-const SetAuthorForm: React.FC<SetAuthorFormProps> = ({ author, setAuthor }) => {
-
-    // use the navigate hook to redirect to set-author page once author is set
-    let router = useRouter();
-  
-    // do some onSubmit function to set the author, use form handler as event param
-    const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.currentTarget);
-        const newAuthor = formData.get('author') as string;
-
-        if (!newAuthor.trim()) {
-            alert('Author name cannot be empty');
-            return;
-        }
-
-        setAuthor(newAuthor);
-
-        // use the navigate hook to redirect to set-author page
-        await router.push('/', undefined, { shallow: true });
-
-    }
+const SetAuthorForm: React.FC<SetAuthorFormProps> = ({ author, setAuthor, submitHandler }) => {
 
     return (
         // <section className="flex flex-col gap-6">
