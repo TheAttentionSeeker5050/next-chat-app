@@ -8,7 +8,7 @@ import {useAppContext} from '@/context/MyContext';
 
 // import navigation hook
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import CurrentUserMessageBubble from '@/components/CurrentUserMessageBubble';
 import OtherUserMessageBubble from '@/components/OtherUserMessageBubble';
 
@@ -18,10 +18,17 @@ import NewMessageComponent from '@/components/NewMessageComponent';
 import DarkThemeToggleSwitch from '@/components/DarkThemeToggleSwitch';
 
 
+// import validation function and error type
+import { validateText } from '@/utils/validators/validateText';
+import { ZodError } from 'zod';
+
 export default function Home() {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
   const { author, socketId, nightMode } = useAppContext();
+
+  // state variables
+  const [error, setError] = useState<string | null>(null);
 
   
   // if author is empty string, redirect to set-author page, use navigate hook
@@ -34,8 +41,43 @@ export default function Home() {
       // use the navigate hook to redirect to set-author page
       router.push('/set-author', undefined, { shallow: true });
     }
-    
+
   }, [author, router]);
+
+  const handleAddNewMessage = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // set the error to null
+    setError(null);
+
+    // get the form data, field name is message
+    const formData = new FormData(e.currentTarget);
+    const newMessage = formData.get('message') as string;
+
+    // store the validation result in a constant
+    const validateResult = validateText(newMessage) as { success: boolean; error?: ZodError<string>; data?: any };
+
+    
+
+    // if any of the validation fails, add the error message to the state variable, which will be displayed in the UI
+    if (validateResult.success === false) {
+      
+      if (validateResult.success === false) {
+        // print error message inside zo error if it exists
+        if (validateResult.error) {
+          setError(validateResult.error.issues[0].message);
+        }
+
+        // disapear the error message after 8 seconds
+        setTimeout(() => {
+          setError(null);
+        }, 5*1000);
+      }
+      return;
+    }
+
+
+  }
 
   return (
     <>
@@ -49,7 +91,7 @@ export default function Home() {
           <DarkThemeToggleSwitch />
         </nav>
 
-        <section className="flex flex-col w-full px-6">
+        <section className="flex flex-col gap-2 w-full px-6 mb-20">
           <div className="self-end ">
             <CurrentUserMessageBubble />
           </div>
@@ -71,7 +113,7 @@ export default function Home() {
           
         </section>
 
-        <NewMessageComponent />
+        <NewMessageComponent error={error} handleAddNewMessage={handleAddNewMessage} />
       </main>
     </>
   );
