@@ -29,6 +29,7 @@ export default function Home() {
 
   // state variables
   const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string>('');
 
   
   // if author is empty string, redirect to set-author page, use navigate hook
@@ -43,6 +44,10 @@ export default function Home() {
     }
 
   }, [author, router]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value);
+  }
 
   const handleAddNewMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -113,7 +118,7 @@ export default function Home() {
           
         </section>
 
-        <NewMessageComponent error={error} handleAddNewMessage={handleAddNewMessage} />
+        <NewMessageComponent error={error} handleAddNewMessage={handleAddNewMessage} message={message} handleChange={handleChange} />
       </main>
     </>
   );
