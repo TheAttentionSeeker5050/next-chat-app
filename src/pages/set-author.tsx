@@ -36,22 +36,15 @@ export default function SetAuthor() {
       const formData = new FormData(e.currentTarget);
       const newAuthor = formData.get('author') as string;
 
-      if (!newAuthor.trim()) {
-          alert('Author name cannot be empty');
-          return;
-      }
-
-      const validateResult = validateAuthorName(newAuthor);
+      const validateResult = validateAuthorName(newAuthor) as { success: boolean; error?: ZodError<string>; data?: any };
 
       // use the validate author function to check if author is valid
       if (validateResult.success === false) {
-        // alert print message inside the validateAuthorName function zod error, optional error zod error, optional data string
-        const validationResult = validateAuthorName(newAuthor) as { success: boolean; error?: ZodError<string>; data?: any };
-        
-        if (validationResult.success === false) {
+
+        if (validateResult.success === false) {
           // print error message inside zo error if it exists
-          if (validationResult.error) {
-            setError(validationResult.error.issues[0].message);
+          if (validateResult.error) {
+            setError(validateResult.error.issues[0].message);
           }
         }
         return;
