@@ -1,4 +1,4 @@
-import { afterAll, beforeAll } from '@jest/globals';
+import { afterAll, afterEach, beforeAll } from '@jest/globals';
 import '@testing-library/jest-dom';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
