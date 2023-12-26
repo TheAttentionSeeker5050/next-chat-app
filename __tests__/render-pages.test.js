@@ -8,12 +8,19 @@ import { useRouter } from "next/router";
 import Home from "@/pages/index";
 import Custom404 from "@/pages/404";
 import Custom500 from "@/pages/500";
+import { afterAll } from "@jest/globals";
 
 // mock the next router
 jest.mock('next/router', () => ({
     __esModule: true,
     useRouter: jest.fn(),
 }));
+
+afterAll(() => {
+    jest.clearAllMocks();
+});
+
+
 
 // if can start the Main page, and get the main tag, it means that the app is working
 describe("test-render-home-page", () => {
@@ -22,10 +29,10 @@ describe("test-render-home-page", () => {
         // mock the useRouter hook 
         useRouter.mockReturnValue({
             push: jest.fn(),
-          });
+        });
 
         // render the app
-        render(
+        const {container, unmount} = render(
             <AppContextProvider>
                 <Home />    
             </AppContextProvider>
@@ -33,7 +40,13 @@ describe("test-render-home-page", () => {
         
         // expect to get main tag content, no matter what contains
         expect(screen.getByRole("main")).toBeInTheDocument();
+
+        
+        unmount();
+        
     });
+
+    
 });
 
 // test if can get error pages using calling components
@@ -41,7 +54,7 @@ describe("test-render-error-page-404", () => {
     it("should render page 404 without throwing an error", async () => {
 
         // render the app
-        render(
+        const {container, unmount} = render(
             <AppContextProvider>
                 <Custom404 />    
             </AppContextProvider>
@@ -50,6 +63,8 @@ describe("test-render-error-page-404", () => {
         // expect to get main tag content, no matter what contains
         // use id error-page-wrapper to get the content
         expect(screen.getByRole("main")).toBeInTheDocument();
+
+        unmount();
     });
 });
 
@@ -58,7 +73,7 @@ describe("test-render-error-page-500", () => {
     it("should render page 500 without throwing an error", async () => {
 
         // render the app
-        render(
+        const {container, unmount} = render(
             <AppContextProvider>
                 <Custom500 />    
             </AppContextProvider>
@@ -67,6 +82,8 @@ describe("test-render-error-page-500", () => {
         // expect to get main tag content, no matter what contains
         // use id error-page-wrapper to get the content
         expect(screen.getByRole("main")).toBeInTheDocument();
+
+        unmount();
     });
 });
 

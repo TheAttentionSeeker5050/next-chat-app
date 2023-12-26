@@ -1,15 +1,10 @@
 import { MongoClient, Db, MongoClientOptions } from 'mongodb';
 
-// const client: any = new MongoClient(process.env.MONGODB_URI as string, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// } as any);
-
 interface Connection {
     db: Db;
     client: MongoClient;
 }
-  
+
   const client = new MongoClient(process.env.MONGODB_URI as string, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
