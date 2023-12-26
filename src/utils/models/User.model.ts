@@ -14,7 +14,7 @@ type CreateUserResult = InsertOneResult<UserModel>;
   
 // the user model crud operations ----------------------------
 // create a new user
-async function createUser(iUsername: string): Promise<UserModel> {
+export async function createUser(iUsername: string): Promise<UserModel> {
   const { db } = await connect();
   const collection = db.collection<UserModel>('users');
 
@@ -39,7 +39,7 @@ async function createUser(iUsername: string): Promise<UserModel> {
 }
 
 // delete a user and all their appearances in conversations
-async function deleteUser(userId: string): Promise<void> {
+export async function deleteUser(userId: string): Promise<void> {
     const { db } = await connect();
     const usersCollection = db.collection<UserModel>('users');
     
@@ -61,13 +61,9 @@ async function deleteUser(userId: string): Promise<void> {
 }
 
 // get a user by their username
-async function getUserByUsername(username: string): Promise<UserModel | null> {
+export async function getUserByUsername(username: string): Promise<UserModel | null> {
     const { db } = await connect();
     const collection = db.collection<UserModel>('users');
 
     return collection.findOne({ username });
 }
-
-
-
-export { createUser };
