@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 
 // the props interface for this component
 interface NewMessageComponentProps {
@@ -11,8 +12,20 @@ interface NewMessageComponentProps {
 
 export default function NewMessageComponent({error, handleAddNewMessage, message, handleChange}: NewMessageComponentProps) {
 
-    // Calculate the number of rows based on the content
-    const rows = Math.min(Math.ceil(message.length / 40), 6); // Adjust the division factor as needed
+    // use state to store the number of rows
+    const [rows, setRows] = useState(1);
+
+    // window is not defined during the build process, so we need to check if window is defined first
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const viewportWidth = window.innerWidth - 135; // the width of the viewport minus the width of everything in between the message input and the viewport
+
+            // usign tailwind base font size, 1rem = 16px, calculate the number of characters per line based on the viewport width and calculate the number of rows based on the content, we choose 9 because not all characters are the same width, so we choose a number that is slightly larger than the average width of a character, this works well for most viewport widths
+            setRows(Math.min(Math.ceil(message.length / (viewportWidth / 9)), 6));
+        }
+
+    }, [message]);
 
     return (
         // create a new message component, where the message bubble contain a send button inside to make it look like part of the message input

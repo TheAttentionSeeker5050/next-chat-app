@@ -1,25 +1,34 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, Db, MongoClientOptions } from 'mongodb';
 
-const client: any = new MongoClient(process.env.MONGODB_URI as string, {
+// const client: any = new MongoClient(process.env.MONGODB_URI as string, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+// } as any);
+
+interface Connection {
+    db: Db;
+    client: MongoClient;
+}
+  
+  const client = new MongoClient(process.env.MONGODB_URI as string, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-} as any);
+} as MongoClientOptions);
 
 
-async function connect() {
+async function connect(): Promise<Connection> {
     const myClient = await client.connect();
-
+  
     if (!myClient) {
-        throw Error('MongoDB Connection Error');
+      throw new Error('MongoDB Connection Error');
     }
-    
-    // validate connection
+  
     const db = await myClient.db('nextChatDb');
-
+  
     if (!db) {
-        throw Error('MongoDB Connection Error');
+      throw new Error('MongoDB Connection Error');
     }
-
+  
     return { db, client };
 }
 
