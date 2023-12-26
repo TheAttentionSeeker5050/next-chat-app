@@ -26,13 +26,13 @@ export default function NewMessageComponent({error, handleAddNewMessage, message
                 value={message}
                 onChange={handleChange}
                 name="message"
-                className="flex-grow mr-2 outline-none focus:outline-none resize-none"
+                className="flex-grow mr-2 outline-none focus:outline-none resize-none px-2"
                 placeholder="Type a message..."
                 rows={Math.max(rows, 1)}
                 maxLength={600}
                 />
 
-                <button type="submit" className="bg-blue-balloons-light hover:bg-blue-balloons-light-hover text-white rounded-md shadow-sm py-1 px-3">
+                <button type="submit" className="bg-blue-balloons-light hover:bg-blue-balloons-light-hover text-white rounded-md shadow-sm py-1 px-3 mt-auto">
                     <FontAwesomeIcon icon={faPlay} />
                 </button>
             </div>
