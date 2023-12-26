@@ -12,7 +12,7 @@ export interface ConversationModel {
     conversationUniqueName?: string,
     participants: UserModel[],
     messages: MessageModel[],
-    admin: UserModel,
+    admin: UserModel | null,
 }
 
 
