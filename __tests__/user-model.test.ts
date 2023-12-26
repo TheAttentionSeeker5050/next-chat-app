@@ -7,3 +7,9 @@ import { createUser, deleteUser, getUserByUsername } from "@/utils/models/User.m
 
 
 // describe the test suite -----------------------------
+// make a dummy test to always pass
+describe("Dummy test", () => {
+  it("should always pass", () => {
+    expect(true).toBe(true);
+  });
+});
