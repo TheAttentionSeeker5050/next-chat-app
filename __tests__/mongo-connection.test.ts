@@ -20,7 +20,7 @@ describe("MongoDB Connection", () => {
         } as MongoClientOptions);
 
         db = connection.db('nextChatDb');
-    });
+    }, 15000);
 
     // close the database connection after all tests
     afterAll(async () => {
