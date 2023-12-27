@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "@shelf/jest-mongodb": "^4.2.0",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
     "@types/kill-port": "^2.0.3",

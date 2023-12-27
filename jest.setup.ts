@@ -58,6 +58,6 @@ beforeAll(async () => {
   await createMockMongoDbUri();
 });
 
-afterAll(async () => {
-  mongod.stop({ doCleanup: true, force: true });
-});
+// afterAll(async () => {
+//   mongod.stop({ doCleanup: true, force: true });
+// });

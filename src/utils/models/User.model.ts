@@ -1,5 +1,5 @@
 // import the mongodb driver methods
-import { ObjectId, InsertOneResult } from 'mongodb';
+import { ObjectId, InsertOneResult, MongoClient, Db } from 'mongodb';
 import { connect } from '@/utils/mongoDbDriver';
 import { ConversationModel } from '@/utils/models/Conversation.model';
 
@@ -14,8 +14,16 @@ type CreateUserResult = InsertOneResult<UserModel>;
   
 // the user model crud operations ----------------------------
 // create a new user
-export async function createUser(iUsername: string): Promise<UserModel> {
-  const { db } = await connect();
+export async function createUser(iUsername: string, client?: MongoClient, db?: Db): Promise<UserModel> {
+  // const { db } = await connect();
+
+  if (!db) {
+    throw new Error('MongoDB Connection Error');
+  }
+
+  if (!client) {
+    throw new Error('MongoDB Connection Error');
+  }
 
   // console.log('Connected to MongoDB');
   const collection = db.collection<UserModel>('users');
