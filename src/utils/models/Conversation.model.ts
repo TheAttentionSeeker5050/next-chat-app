@@ -161,12 +161,30 @@ export async function addUserToConversation(conversationId: string, user: UserMo
     }
 
     const collection = db.collection('conversations');
-    
-    // append user to the participants array inside the conversation document
-    await collection.updateOne(
-        { _id: new ObjectId(conversationId) },
-        { $push: { participants: user } }
-    );
+
+    // get the conversation and check if the user is a participant
+    const conversation = await collection.findOne({ _id: new ObjectId(conversationId) });
+
+    if (!conversation) {
+        throw new Error('Conversation not found');
+    }
+
+    const userIsParticipant = conversation.participants.some((participant: UserModel) => participant._id.toString() === user._id.toString());
+
+    if (!userIsParticipant) {
+
+        // get all the participants in the conversation
+        let participants = conversation.participants;
+
+        // append the user to the participants array
+        participants.push(user);
+
+        // update the conversation with the new participants array
+        await collection.updateOne(
+            { _id: new ObjectId(conversationId) },
+            { $set: { participants: participants } }
+        );
+    }
 
 }
 
