@@ -151,7 +151,7 @@ export async function deleteMessageInConversation(conversationId: string, messag
 
 
 // crud operations for the participants (or users) in a conversation ------------
-export async function addUserToConversation(conversationId: string, user: UserModel, client?: MongoClient, db?: Db): Promise<void> {
+export async function addUserToConversation(conversationId: string, userId: string, client?: MongoClient, db?: Db): Promise<void> {
     if (!db) {
         throw new Error('MongoDB Connection Error');
     }
@@ -169,7 +169,9 @@ export async function addUserToConversation(conversationId: string, user: UserMo
         throw new Error('Conversation not found');
     }
 
-    const userIsParticipant = conversation.participants.some((participant: UserModel) => participant._id.toString() === user._id.toString());
+    const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+
+    const userIsParticipant = conversation.participants.some((participant: UserModel) => participant._id.toString() === userId);
 
     if (!userIsParticipant) {
 
@@ -235,23 +237,24 @@ export async function makeUserAdminInConversation(conversationId: string, userId
         throw new Error('Conversation not found');
     }
 
-    const userIsParticipant = conversation.participants.some((participant: UserModel) => participant._id.toString() === userId);
+    // find user by id
+    const user = await db.collection('users').findOne({ _id: new ObjectId(userId) }) as UserModel;
 
-    if (!userIsParticipant) {
-        throw new Error('User is not a participant in the conversation');
+    if (conversation.participants.some((participant: UserModel) => participant._id.toString() !== userId)) {
+
+        // make the user the admin
+        const result = await collection.updateOne(
+            { _id: new ObjectId(conversationId) },
+            { $set: { admin: user } }
+        );
+
+        if (!result.matchedCount) {
+            throw new Error('Conversation not found');
+        }
+    
+        if (!result.modifiedCount) {
+            throw new Error('User is already the admin');
+        }
     }
 
-    // make the user the admin
-    const result = await collection.updateOne(
-        { _id: new ObjectId(conversationId) },
-        { $set: { admin: { _id: new ObjectId(userId) } } }
-    );
-
-    if (!result.matchedCount) {
-        throw new Error('Conversation not found');
-    }
-
-    if (!result.modifiedCount) {
-        throw new Error('User is already the admin');
-    }
 }
