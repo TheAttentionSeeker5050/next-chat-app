@@ -39,8 +39,6 @@ describe("Test Conversation Model", () => {
     // create a conversation and check that it exists
     it("should create, retrieve and delete a conversation", async () => {
     
-        const conversations = db.collection('conversations');
-    
         // create a mock conversation model
         const mockConversation : ConversationModel = {
             _id: new ObjectId(),
@@ -51,26 +49,26 @@ describe("Test Conversation Model", () => {
         };
     
         try {
-        // Create a conversation
-        const newConversation = await createConversation(mockConversation, connection, db);
+            // Create a conversation
+            const newConversation = await createConversation(mockConversation, connection, db);
+            
+            // Assert that the conversation is created successfully
+            expect(newConversation.conversationUniqueName).toBe('testConversation');
+            
+            // assert get conversation by unique name
+            const foundConversation = await getConversationByUniqueName(mockConversation.conversationUniqueName as string, connection, db);
         
-        // Assert that the conversation is created successfully
-        expect(newConversation.conversationUniqueName).toBe('testConversation');
+            // assert that the conversation is found
+            expect(foundConversation?.conversationUniqueName).toBe(newConversation.conversationUniqueName);
         
-        // assert get conversation by unique name
-        const foundConversation = await getConversationByUniqueName(mockConversation.conversationUniqueName as string, connection, db);
-    
-        // assert that the conversation is found
-        expect(foundConversation?.conversationUniqueName).toBe(newConversation.conversationUniqueName);
-    
-        // delete the conversation
-        await deleteConversation(newConversation._id.toString(), connection, db);
-    
-        // assert that the conversation is deleted
-        const deletedConversation = await getConversationById(newConversation._id.toString(), connection, db);
-    
-        // assert that the conversation is null
-        expect(deletedConversation).toBeNull();
+            // delete the conversation
+            await deleteConversation(newConversation._id.toString(), connection, db);
+        
+            // assert that the conversation is deleted
+            const deletedConversation = await getConversationById(newConversation._id.toString(), connection, db);
+        
+            // assert that the conversation is null
+            expect(deletedConversation).toBeNull();
     
         } catch (error) {
             console.log("Error testing conversation model: ", error);
@@ -82,9 +80,9 @@ describe("Test Conversation Model", () => {
     
     // now we will test adding a user to a conversation and deleting a user from a conversation
     it("should add and delete a user from a conversation", async () => {
-        // get or create the collections
-        const conversations = db.collection('conversations');
-        const users = db.collection('users');
+        // // get or create the collections
+        // const conversations = db.collection('conversations');
+        // const users = db.collection('users');
     
         // create a mock conversation model
         const mockConversation : ConversationModel = {
@@ -98,22 +96,15 @@ describe("Test Conversation Model", () => {
         const mockUserName = 'testUser';
 
         try {
-        
-            // delete the user if it exists
-            const userToDelete = await getUserByUsername(mockUserName, connection, db);
-            if (userToDelete) {
-                await deleteUser(userToDelete._id.toString(), connection, db);
-            }
 
             // insert the mock user into the database
             const mockUser = await createUser(mockUserName, connection, db);
 
             // insert the mock conversation into the database
-            // const newConversation = createConversation(mockConversation, connection, db);
-            createConversation(mockConversation, connection, db);
+            await createConversation(mockConversation, connection, db);
 
             // insert the mock user into the mock conversation
-            addUserToConversation(mockConversation._id.toString(), mockUser, connection, db);
+            await addUserToConversation(mockConversation._id.toString(), mockUser, connection, db);
 
             // look for the conversation in the database
             const foundConversation = await getConversationById(mockConversation._id.toString(), connection, db);
@@ -142,10 +133,7 @@ describe("Test Conversation Model", () => {
     // make 3 conversations and add a user to each of them
     // then validate that the user is in all 3 conversations
     it("should get all conversations for a user", async () => {
-        // get or create the collections
-        const conversations = db.collection('conversations');
-        const users = db.collection('users');
-    
+        
         // create a mock conversation model
         const mockConversation1 : ConversationModel = {
             _id: new ObjectId(),
@@ -174,53 +162,47 @@ describe("Test Conversation Model", () => {
         const mockUserName = 'testUser';
 
         try {
-
-            // first delete the user if it exists
-            const userToDelete = await getUserByUsername(mockUserName, connection, db);
-            if (userToDelete) {
-                await deleteUser(userToDelete._id.toString(), connection, db);
-            }
         
             // insert the mock user into the database
             const mockUser = await createUser(mockUserName, connection, db);
 
+
             // insert the mock conversation into the database
-            // const newConversation = createConversation(mockConversation, connection, db);
-            createConversation(mockConversation1, connection, db);
-            createConversation(mockConversation2, connection, db);
-            createConversation(mockConversation3, connection, db);
+            await createConversation(mockConversation1, connection, db);
+            await createConversation(mockConversation2, connection, db);
+            await createConversation(mockConversation3, connection, db);
+
+            // console.log("conversation1: ", conversation1);
+            
 
             // insert the mock user into the mock conversation
-            addUserToConversation(mockConversation1._id.toString(), mockUser, connection, db);
-            addUserToConversation(mockConversation2._id.toString(), mockUser, connection, db);
-            addUserToConversation(mockConversation3._id.toString(), mockUser, connection, db);
+            await addUserToConversation(mockConversation1._id.toString(), mockUser, connection, db);
+            await addUserToConversation(mockConversation2._id.toString(), mockUser, connection, db);
+            await addUserToConversation(mockConversation3._id.toString(), mockUser, connection, db);
 
             // look for the conversation in the database
             const foundConversations = await getAllConversationsForUser(mockUser._id.toString(), connection, db);
 
-            console.log("foundConversations: ", foundConversations);
+            // assert that the conversation is found, there should be 3 entries
+            expect(foundConversations.length).toBe(3);
 
-            // assert that the conversation is found
-            expect(3).toBe(3);
-            // expect(foundConversations.length).toBe(3);
+            // assert that their unique names are correct
+            expect(foundConversations[0].conversationUniqueName).toBe(mockConversation1.conversationUniqueName);
+            expect(foundConversations[1].conversationUniqueName).toBe(mockConversation2.conversationUniqueName);
+            expect(foundConversations[2].conversationUniqueName).toBe(mockConversation3.conversationUniqueName);
 
-            // // assert that their unique names are correct
-            // expect(foundConversations[0].conversationUniqueName).toBe(mockConversation1.conversationUniqueName);
-            // expect(foundConversations[1].conversationUniqueName).toBe(mockConversation2.conversationUniqueName);
-            // expect(foundConversations[2].conversationUniqueName).toBe(mockConversation3.conversationUniqueName);
+            // assert their ids are correct
+            expect(foundConversations[0]._id.toString()).toBe(mockConversation1._id.toString());
+            expect(foundConversations[1]._id.toString()).toBe(mockConversation2._id.toString());
+            expect(foundConversations[2]._id.toString()).toBe(mockConversation3._id.toString());
 
-            // // assert their ids are correct
-            // expect(foundConversations[0]._id.toString()).toBe(mockConversation1._id.toString());
-            // expect(foundConversations[1]._id.toString()).toBe(mockConversation2._id.toString());
-            // expect(foundConversations[2]._id.toString()).toBe(mockConversation3._id.toString());
+            // delete the user from the database
+            deleteUser(mockUser._id.toString(), connection, db);
 
-            // // delete the user from the database
-            // deleteUser(mockUser._id.toString(), connection, db);
-
-            // // delete the conversations from the database
-            // deleteConversation(mockConversation1._id.toString(), connection, db);
-            // deleteConversation(mockConversation2._id.toString(), connection, db);
-            // deleteConversation(mockConversation3._id.toString(), connection, db);
+            // delete the conversations from the database
+            await deleteConversation(mockConversation1._id.toString(), connection, db);
+            await deleteConversation(mockConversation2._id.toString(), connection, db);
+            await deleteConversation(mockConversation3._id.toString(), connection, db);
 
 
         } catch (error) {
