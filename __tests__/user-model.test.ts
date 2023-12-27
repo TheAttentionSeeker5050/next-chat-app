@@ -5,9 +5,10 @@ import {describe, expect, test, it, beforeAll, afterAll} from '@jest/globals';
 // the model functions are imported from utils/models
 import { createUser, deleteUser, getUserByUsername } from "@/utils/models/User.model";
 import { Db, MongoClient, MongoClientOptions } from "mongodb";
+import { afterEach } from "node:test";
 
 // describe the test suite -----------------------------
-describe("User Model", () => {
+describe("Test User Model", () => {
   let connection : MongoClient;
   let db : Db
 
@@ -24,6 +25,12 @@ describe("User Model", () => {
   // close the database connection after all tests
   afterAll(async () => {
     await connection.close();
+  });
+  
+  afterEach(async () => {
+    // cleanup the user and conversation collections
+    await db.collection('users').deleteMany({});
+    await db.collection('conversations').deleteMany({});
   });
 
   // create a user and check that it exists
