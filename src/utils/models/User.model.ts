@@ -16,26 +16,38 @@ type CreateUserResult = InsertOneResult<UserModel>;
 // create a new user
 export async function createUser(iUsername: string): Promise<UserModel> {
   const { db } = await connect();
+
+  // console.log('Connected to MongoDB');
   const collection = db.collection<UserModel>('users');
+  // console.log('MONGODB_URI:', process.env.MONGODB_URI);
+  // console.log('iussername:', iUsername);
 
-  const result: CreateUserResult = await collection.insertOne({
-    username: iUsername,
-    _id: new ObjectId(),
-  });
+  try {
 
-  const insertedId = result.insertedId;
-
-  if (!insertedId) {
-    throw new Error('User creation failed');
+    const result: CreateUserResult = await collection.insertOne({
+      username: iUsername,
+      _id: new ObjectId(),
+    });
+    console.log('Insert result:', result);
+    
+    
+    const insertedId = result.insertedId;
+    
+    if (!insertedId) {
+      throw new Error('User creation failed');
+    }
+    
+    const createdUser = await collection.findOne({ _id: insertedId });
+    
+    if (!createdUser) {
+      throw new Error('User not found after creation');
+    }
+    
+    return createdUser;
+  } catch (error) {
+    console.log('Error creating user:', error);
+    throw error;
   }
-
-  const createdUser = await collection.findOne({ _id: insertedId });
-
-  if (!createdUser) {
-    throw new Error('User not found after creation');
-  }
-
-  return createdUser;
 }
 
 // delete a user and all their appearances in conversations
