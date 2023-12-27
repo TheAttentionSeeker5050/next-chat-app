@@ -5,7 +5,7 @@ import {describe, expect, test, it, beforeAll, afterAll, afterEach} from '@jest/
 import { Db, MongoClient, MongoClientOptions, ObjectId } from "mongodb";
 
 // import our functions to test and validate
-import { createConversation, deleteConversation, getConversationByUniqueName, addUserToConversation, getAllConversationsForUser, getConversationById, ConversationModel, deleteUserInConversation } from "@/utils/models/Conversation.model";
+import { createConversation, deleteConversation, getConversationByUniqueName, addUserToConversation, getAllConversationsForUser, getConversationById, ConversationModel, deleteUserInConversation, makeUserAdminInConversation } from "@/utils/models/Conversation.model";
 
 // import the models
 import { UserModel, createUser, deleteUser, getUserByUsername } from "@/utils/models/User.model";
@@ -104,7 +104,7 @@ describe("Test Conversation Model", () => {
             await createConversation(mockConversation, connection, db);
 
             // insert the mock user into the mock conversation
-            await addUserToConversation(mockConversation._id.toString(), mockUser, connection, db);
+            await addUserToConversation(mockConversation._id.toString(), mockUser._id.toString(), connection, db);
 
             // look for the conversation in the database
             const foundConversation = await getConversationById(mockConversation._id.toString(), connection, db);
@@ -176,9 +176,9 @@ describe("Test Conversation Model", () => {
             
 
             // insert the mock user into the mock conversation
-            await addUserToConversation(mockConversation1._id.toString(), mockUser, connection, db);
-            await addUserToConversation(mockConversation2._id.toString(), mockUser, connection, db);
-            await addUserToConversation(mockConversation3._id.toString(), mockUser, connection, db);
+            await addUserToConversation(mockConversation1._id.toString(), mockUser._id.toString(), connection, db);
+            await addUserToConversation(mockConversation2._id.toString(), mockUser._id.toString(), connection, db);
+            await addUserToConversation(mockConversation3._id.toString(), mockUser._id.toString(), connection, db);
 
             // look for the conversation in the database
             const foundConversations = await getAllConversationsForUser(mockUser._id.toString(), connection, db);
@@ -211,5 +211,69 @@ describe("Test Conversation Model", () => {
             expect(error).toBeNull();
         }
     });
+
+    // test make user admin
+    it("should make a user admin", async () => {
+            
+        // create a mock conversation model
+        const mockConversation : ConversationModel = {
+            _id: new ObjectId(),
+            conversationUniqueName: 'testConversation1',
+            participants: [] as UserModel[],
+            messages: [] as MessageModel[],
+            admin: null,
+        };
+    
+        
+        try {
+            
+            const mockUserNameAdmin = 'testUser';
+            const mockUserNameparticipant = 'testUser2';
+            
+            // insert the mock user into the database
+            const mockUserAdmin = await createUser(mockUserNameAdmin, connection, db);
+
+            // insert the mock user into the database
+            const mockUserParticipant = await createUser(mockUserNameparticipant, connection, db);
+
+            // insert the mock conversation into the database
+            await createConversation(mockConversation, connection, db);
+
+            // insert the mock users into the mock conversation
+            await addUserToConversation(mockConversation._id.toString(), mockUserAdmin._id.toString(), connection, db);
+            await addUserToConversation(mockConversation._id.toString(), mockUserParticipant._id.toString(), connection, db);
+
+            // make the user admin
+            await makeUserAdminInConversation(mockConversation._id.toString(), mockUserAdmin._id.toString(), connection, db);
+
+            // look for the conversation in the database
+            const foundConversation = await getConversationById(mockConversation._id.toString(), connection, db);
+            
+            // assert that the conversation is found
+            expect(foundConversation?.admin?.username).toBe(mockUserAdmin.username);
+
+            // assert that the user admin is admin
+            expect(foundConversation?.admin?._id.toString()).toBe(mockUserAdmin._id.toString());
+
+            // assert the participant is not admin
+            expect(foundConversation?.admin?._id.toString()).not.toBe(mockUserParticipant._id.toString());
+
+            // check if both users are participants, meaning user _id in participants array
+            const userAdminIsInParticipantArray = foundConversation?.participants.some((participant: UserModel) => participant._id.toString() === mockUserAdmin._id.toString());
+            const userParticipantIsInParticipantArray = foundConversation?.participants.some((participant: UserModel) => participant._id.toString() === mockUserParticipant._id.toString());
+
+            // assert that both users are participants
+            expect(userAdminIsInParticipantArray).toBe(true);
+            expect(userParticipantIsInParticipantArray).toBe(true);
+
+        } catch (error) {
+            console.log("Error testing conversation model: ", error);
+            // assert that the error is null, in case of error it will fail the test
+            expect(error).toBeNull();
+        }
+    });
+
+
+
 
 });
