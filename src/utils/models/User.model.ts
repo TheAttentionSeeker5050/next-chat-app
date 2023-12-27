@@ -15,7 +15,7 @@ type CreateUserResult = InsertOneResult<UserModel>;
 // the user model crud operations ----------------------------
 // create a new user
 export async function createUser(iUsername: string, client?: MongoClient, db?: Db): Promise<UserModel> {
-  // const { db } = await connect();
+  
 
   if (!db) {
     throw new Error('MongoDB Connection Error');
@@ -86,7 +86,7 @@ export async function deleteUser(userId: string, client?: MongoClient, db?: Db):
 
 // get a user by their username
 export async function getUserByUsername(username: string, client?: MongoClient, db?: Db): Promise<UserModel | null> {
-    // const { db } = await connect();
+    
     if (!db) {
       throw new Error('MongoDB Connection Error');
     }
