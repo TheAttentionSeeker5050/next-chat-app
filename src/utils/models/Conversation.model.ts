@@ -20,7 +20,7 @@ type CreateConversationResult = InsertOneResult<ConversationModel>;
 
 
 // the conversation model crud operations ----------------------------
-export async function getAllDataForConversation(conversationId?: string, client?: MongoClient, db?: Db): Promise<ConversationModel | null> {
+export async function getConversationById(conversationId?: string, client?: MongoClient, db?: Db): Promise<ConversationModel | null> {
 
     if (!db) {
         throw new Error('MongoDB Connection Error');
@@ -40,6 +40,21 @@ export async function getAllDataForConversation(conversationId?: string, client?
     return collection.findOne({ _id: new ObjectId(conversationId) });
 }
 
+export async function getAllConversationsForUser(userId: string, client?: MongoClient, db?: Db): Promise<ConversationModel[]> {
+    
+    if (!db) {
+        throw new Error('MongoDB Connection Error');
+    }
+
+    if (!client) {
+        throw new Error('MongoDB Connection Error');
+    }
+    
+    const collection = db.collection<ConversationModel>('conversations');
+
+    return collection.find({ 'participants._id': new ObjectId(userId) }).toArray();
+}
+
 export async function getConversationByUniqueName(conversationUniqueName: string, client?: MongoClient, db?: Db): Promise<ConversationModel | null> {
     if (!db) {
         throw new Error('MongoDB Connection Error');
@@ -55,7 +70,7 @@ export async function getConversationByUniqueName(conversationUniqueName: string
     return collection.findOne({ conversationUniqueName });
 }
 
-export async function createConversation(participants: UserModel[], admin: UserModel, conversationUniqueName: string | null = null, client?: MongoClient, db?: Db): Promise<ConversationModel> {
+export async function createConversation(conversationModel: ConversationModel, client?: MongoClient, db?: Db): Promise<ConversationModel> {
     
     if (!db) {
         throw new Error('MongoDB Connection Error');
@@ -67,13 +82,7 @@ export async function createConversation(participants: UserModel[], admin: UserM
 
     const collection = db.collection<ConversationModel>('conversations');
 
-    const result: CreateConversationResult = await collection.insertOne({
-        _id: new ObjectId(),
-        participants,
-        conversationUniqueName: conversationUniqueName ? conversationUniqueName : undefined,
-        messages: [],
-        admin,
-    });
+    const result: CreateConversationResult = await collection.insertOne(conversationModel);
 
     const insertedId = result.insertedId;
 
@@ -123,7 +132,7 @@ export async function addMessageToConversation(conversationId: string, message: 
     );
 }
   
-async function deleteMessageInConversation(conversationId: string, messageId: string, client?: MongoClient, db?: Db): Promise<void> {
+export async function deleteMessageInConversation(conversationId: string, messageId: string, client?: MongoClient, db?: Db): Promise<void> {
     if (!db) {
         throw new Error('MongoDB Connection Error');
     }
@@ -142,7 +151,7 @@ async function deleteMessageInConversation(conversationId: string, messageId: st
 
 
 // crud operations for the participants (or users) in a conversation ------------
-async function addUserToConversation(conversationId: string, user: UserModel, client?: MongoClient, db?: Db): Promise<void> {
+export async function addUserToConversation(conversationId: string, user: UserModel, client?: MongoClient, db?: Db): Promise<void> {
     if (!db) {
         throw new Error('MongoDB Connection Error');
     }
@@ -153,6 +162,7 @@ async function addUserToConversation(conversationId: string, user: UserModel, cl
 
     const collection = db.collection('conversations');
     
+    // append user to the participants array inside the conversation document
     await collection.updateOne(
         { _id: new ObjectId(conversationId) },
         { $push: { participants: user } }

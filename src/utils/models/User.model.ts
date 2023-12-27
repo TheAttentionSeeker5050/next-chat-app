@@ -30,13 +30,21 @@ export async function createUser(iUsername: string, client?: MongoClient, db?: D
 
   try {
 
+    // first check if the user already exists
+    const oldUserWidthSameUsername = await collection.findOne({ username: iUsername });
+
+    // if the user already exists, throw an error
+    if (oldUserWidthSameUsername) {
+      throw new Error('User already exists');
+    }
+
     const result: CreateUserResult = await collection.insertOne({
       username: iUsername,
       _id: new ObjectId(),
-    });
-    console.log('Insert result:', result);
+    });    
     
-    
+    // make sure that the user is created successfully
+    // if not, throw an error
     const insertedId = result.insertedId;
     
     if (!insertedId) {
@@ -69,13 +77,16 @@ export async function deleteUser(userId: string, client?: MongoClient, db?: Db):
 
   const usersCollection = db.collection<UserModel>('users');
   
+  // delete the user
   await usersCollection.deleteOne({ _id: new ObjectId(userId) });
+
   // delete the user from all conversations
   const conversationsCollection = db.collection<ConversationModel>('conversations');
   await conversationsCollection.updateMany(
     { 'participants._id': new ObjectId(userId) },
     { $pull: { participants: { _id: new ObjectId(userId) } } }
   );
+
   // set the admin of all conversations to the first participant
   await conversationsCollection.updateMany(
     { 'admin._id': new ObjectId(userId) },
