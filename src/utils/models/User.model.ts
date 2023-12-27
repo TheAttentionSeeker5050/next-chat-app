@@ -27,8 +27,6 @@ export async function createUser(iUsername: string, client?: MongoClient, db?: D
 
   // console.log('Connected to MongoDB');
   const collection = db.collection<UserModel>('users');
-  // console.log('MONGODB_URI:', process.env.MONGODB_URI);
-  // console.log('iussername:', iUsername);
 
   try {
 
@@ -59,30 +57,44 @@ export async function createUser(iUsername: string, client?: MongoClient, db?: D
 }
 
 // delete a user and all their appearances in conversations
-export async function deleteUser(userId: string): Promise<void> {
-    const { db } = await connect();
-    const usersCollection = db.collection<UserModel>('users');
+export async function deleteUser(userId: string, client?: MongoClient, db?: Db): Promise<void> {
     
-    await usersCollection.deleteOne({ _id: new ObjectId(userId) });
+  if (!db) {
+    throw new Error('MongoDB Connection Error');
+  }
 
-    // delete the user from all conversations
-    const conversationsCollection = db.collection<ConversationModel>('conversations');
-    await conversationsCollection.updateMany(
-        { 'participants._id': new ObjectId(userId) },
-        { $pull: { participants: { _id: new ObjectId(userId) } } }
-    );
+  if (!client) {
+    throw new Error('MongoDB Connection Error');
+  }
 
-    // set the admin of all conversations to the first participant
-    await conversationsCollection.updateMany(
-        { 'admin._id': new ObjectId(userId) },
-        { $set: { admin: null } }
-    );
+  const usersCollection = db.collection<UserModel>('users');
+  
+  await usersCollection.deleteOne({ _id: new ObjectId(userId) });
+  // delete the user from all conversations
+  const conversationsCollection = db.collection<ConversationModel>('conversations');
+  await conversationsCollection.updateMany(
+    { 'participants._id': new ObjectId(userId) },
+    { $pull: { participants: { _id: new ObjectId(userId) } } }
+  );
+  // set the admin of all conversations to the first participant
+  await conversationsCollection.updateMany(
+    { 'admin._id': new ObjectId(userId) },
+    { $set: { admin: null } }
+  );
 
 }
 
 // get a user by their username
-export async function getUserByUsername(username: string): Promise<UserModel | null> {
-    const { db } = await connect();
+export async function getUserByUsername(username: string, client?: MongoClient, db?: Db): Promise<UserModel | null> {
+    // const { db } = await connect();
+    if (!db) {
+      throw new Error('MongoDB Connection Error');
+    }
+  
+    if (!client) {
+      throw new Error('MongoDB Connection Error');
+    }
+
     const collection = db.collection<UserModel>('users');
 
     return collection.findOne({ username });
