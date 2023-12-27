@@ -8,15 +8,20 @@ This chat application allows users to engage in real-time conversations in a sin
 
 **Note: This project is a work in progress, many of the features are being added as it advances.**
 
-
 ## Table of Contents
 
-- [Chat Application (Work in Progress)](#chat-application-work-in-progress)
+- [Next.js and Mongo Chat Application (Work in Progress)](#nextjs-and-mongo-chat-application-work-in-progress)
   - [Description](#description)
   - [Table of Contents](#table-of-contents)
   - [Getting Started](#getting-started)
   - [Features](#features)
-  - [Testing Focus](#testing-focus)
+  - [Testing](#testing)
+    - [Routes (TBD)](#routes-tbd)
+    - [Database CRUD Operations](#database-crud-operations)
+    - [Database Connection](#database-connection)
+    - [Socket.io (TBD)](#socketio-tbd)
+    - [Formatters and Input Validation methods](#formatters-and-input-validation-methods)
+  - [Note](#note)
 
 ## Getting Started
 
@@ -28,11 +33,13 @@ git clone github.com/TheAttentionSeeker5050/next-chat-app
 2. **Install dependencies:**
 ```bash
 npm install
+# or sudo npm install
 ```
 
 3. **Run the development server:**
 ```bash
 npm run dev
+# or sudo npm run dev
 ```
 
 4. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
@@ -47,8 +54,36 @@ npm run dev
 - Tailwind CSS for styling.
 - Linting validation for code quality.
 
-## Testing Focus
+## Testing
 
-This project follows a test-driven development approach, with a focus on creating a robust and reliable chat application. GitHub Actions are set up to run tests on the main branch, ensuring code quality before merging.
+This project employs a robust testing strategy, ensuring the reliability and stability of the application. The testing suite covers the following areas:
+
+Unit tests validate the behavior of React components. To run component tests, use:
+
+```bash
+npm run test
+# or sudo npm run test
+```
+
+### Routes (TBD)
+Route tests ensure proper navigation within the application. (To be implemented)
+
+### Database CRUD Operations
+Integration tests for database operations ensure seamless interaction with MongoDB. (Execute tests with the command above)
+
+### Database Connection
+Tests focus on establishing and validating connections to the database.
+
+### Socket.io (TBD)
+Future plans include testing for real-time communication via Socket.io.
+
+###  Formatters and Input Validation methods
+Unit tests ensure the correctness of text formatters and input validation methods.
+
+## Note
+This project is a tech migration of a project built with a team of 3 other developers. You can find the original project at [Project-Management-Chat-App/chat-application-pm-project](https://github.com/Project-Management-Chat-App/chat-application-pm-project). It was firstly built using webpack, babel, JavaScript, and jQuery.
+
+Additionally, a live demo of this project will be added in the future.
+
 
 **More details on deployment, local setup, and additional features will be provided later in the project.**
