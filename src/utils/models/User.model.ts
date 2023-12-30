@@ -34,8 +34,9 @@ export async function createUser(iUsername: string, client?: MongoClient, db?: D
     const oldUserWidthSameUsername = await collection.findOne({ username: iUsername });
 
     // if the user already exists, throw an error
+    // because of the app's design, we just need to return the user if they already exist
     if (oldUserWidthSameUsername) {
-      throw new Error('User already exists');
+      return oldUserWidthSameUsername;
     }
 
     const result: CreateUserResult = await collection.insertOne({
