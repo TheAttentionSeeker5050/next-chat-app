@@ -16,21 +16,13 @@ export default async function handler(
     if (req.method === 'POST') {
         const { username } = req.body;
 
-        let connection : MongoClient;
-        let db : Db;
-
-        const client = new MongoClient(process.env.MONGODB_URI as string);
-      
-        connection = await client.connect();
-
-        db = connection.db('nextChatDb');
-
         // connect to the database using the connect function
-        // const { db, client } = await connect();
-        const user = await createUser(username, connection, db);
+        let { db, client } = await connect();
+
+        const user = await createUser(username, client, db);
 
         // close the database connection
-        await connection.close();
+        await client.close();
 
         res.status(200).json(user);
         return;
