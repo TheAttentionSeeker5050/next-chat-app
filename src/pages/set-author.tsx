@@ -14,6 +14,7 @@ import { validateAuthorName } from '@/utils/validators/validateAuthorName';
 
 // zod error type 
 import { ZodError } from 'zod';
+import { saveToLocalStorage } from '@/context/localStorageHandlers';
 
 
 
@@ -39,18 +40,35 @@ export default function SetAuthor() {
       const validateResult = validateAuthorName(newAuthor) as { success: boolean; error?: ZodError<string>; data?: any };
 
       // use the validate author function to check if author is valid
-      if (validateResult.success === false) {
-
-        if (validateResult.success === false) {
-          // print error message inside zo error if it exists
-          if (validateResult.error) {
-            setError(validateResult.error.issues[0].message);
-          }
-        }
+      if (!validateResult.success) {
+        setError(validateResult.error?.issues[0].message || 'Invalid author name');
         return;
       }
 
+      // make a call to the server to set the author
+      const res = await fetch('/api/set-author', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          // only the username is needed
+          username: newAuthor,
+        }),
+      });
+
+
+      // check if response is ok
+      if (!res.ok) {
+        setError('Oops! Something went wrong while setting the author');
+        return;
+      }
+
+      // set app context author
       setAuthor(newAuthor);
+
+      // use the localstorage to set the author using our methods inside context dir
+      saveToLocalStorage('author', newAuthor);
 
       // use the navigate hook to redirect to set-author page
       await router.push('/', undefined, { shallow: true });
