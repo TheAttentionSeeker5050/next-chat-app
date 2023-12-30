@@ -25,7 +25,7 @@ import { ZodError } from 'zod';
 export default function Home() {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
-  const { author, socketId, nightMode } = useAppContext();
+  const { author, setAuthor, socketId, nightMode } = useAppContext();
 
   // state variables
   const [error, setError] = useState<string | null>(null);
@@ -39,8 +39,15 @@ export default function Home() {
   useEffect(() => {
     
     if (author === '') {
-      // use the navigate hook to redirect to set-author page
-      router.push('/set-author', undefined, { shallow: true });
+      // lookout on localstorage for author value, using the getFromLocalStorage function
+      const authorFromLocalStorage = localStorage.getItem('author');
+      if (authorFromLocalStorage) {
+        // set the author in the context
+        setAuthor(authorFromLocalStorage);
+      } else {
+        // use the navigate hook to redirect to set-author page if author is empty
+        router.push('/set-author', undefined, { shallow: true });
+      }
     }
 
   }, [author, router]);
@@ -117,6 +124,7 @@ export default function Home() {
           </div>
           
         </section>
+
 
         <NewMessageComponent error={error} handleAddNewMessage={handleAddNewMessage} message={message} handleChange={handleChange} />
       </main>
