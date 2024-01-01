@@ -19,4 +19,12 @@ export interface MessageModel {
     contentType: MessageContentType
 }
 
+export interface MessageModelFirebase {
+    userId: string,
+    username: string,
+    message: string,
+    createdAt: Date,
+    updatedAt: Date,
+}
+
 // crud operations for this are handled by the conversation model

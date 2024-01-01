@@ -65,12 +65,5 @@ const addNewMessageToDatabase = (message: string, author: string, authorId: stri
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     });
-
-    // set(ref(database, 'conversations/' + conversationId + '/messages/' + messageId), {
-    //   message: message,
-    //   userId: authorId,
-    //   username: author,
-    //   createdAt: new Date().toISOString(),
-    //   updatedAt: new Date().toISOString()
-    // });
+    
 };
