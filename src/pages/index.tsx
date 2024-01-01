@@ -140,7 +140,7 @@ export default function Home({ messages }: { messages: MessageModelFirebase[] })
             } else {
               return (
                 <div className="self-start " key={index}>
-                  <OtherUserMessageBubble/>
+                  <OtherUserMessageBubble author={message.username} authorId={message.userId} message={message.message} date={new Date(message.updatedAt)} />
                 </div>
               );
             }

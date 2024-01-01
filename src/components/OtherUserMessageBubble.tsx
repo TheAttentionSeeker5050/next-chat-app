@@ -1,12 +1,21 @@
+import { formatDate } from "@/utils/formatters/formatDate";
 import React from "react";
 
-export default function OtherUserMessageBubble() {
+// the props are the message, the author, and the date
+interface Props {
+    message: string;
+    author: string;
+    authorId: string;
+    date: Date;
+}
+
+export default function OtherUserMessageBubble({ message, author, authorId, date }: Props) {
 
     return (
-        <div className="w-52 mobile:w-80 tablet:w-1/2 relative mx-auto tablet:ml-8 bg-gray-balloons-light rounded-lg shadow-lg p-2 mb-10">
-            <p className="font-semibold text-blue-balloons-light mb-1">Other User</p>
-            <p className="text-fore-tertiary-light mb-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo, officiis dolorem voluptatibus voluptate mollitia soluta sequi excepturi assumenda.</p>
-            <span className="text-xs uppercase text-fore-tertiary-light">10:20 pm</span>
+        <div className="w-52 mobile:w-80 tablet:w-96 max-w-max relative mx-auto tablet:ml-8 bg-gray-balloons-light rounded-lg shadow-lg py-2 px-3 mb-10">
+            <p className="font-semibold text-blue-balloons-light mb-1">{author}:</p>
+            <p className="text-fore-tertiary-light mb-2">{message}</p>
+            <span className="text-xs uppercase text-fore-tertiary-light">{formatDate(date)}</span>
         </div>
     );
 }
