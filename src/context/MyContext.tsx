@@ -5,8 +5,8 @@ import React, { createContext, useContext, ReactNode, useState, Dispatch, SetSta
 interface AppContextType {
   author: string;
   setAuthor: Dispatch<SetStateAction<string>>; // Add the missing setAuthor property
-  socketId: string;
-  setSocketId: Dispatch<SetStateAction<string>>;
+  authorId: string;
+  setAuthorId: Dispatch<SetStateAction<string>>;
   nightMode: boolean;
   setNightMode: Dispatch<SetStateAction<boolean>>;
   // Add more statuses here
@@ -22,7 +22,7 @@ interface AppProviderProps {
 // Create a provider component
 const AppContextProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [author, setAuthor] = useState<string>('');
-  const [socketId, setSocketId] = useState<string>('');
+  const [authorId, setAuthorId] = useState<string>('');
   const [nightMode, setNightMode] = useState<boolean>(false);
   // Add more states as needed
   
@@ -31,8 +31,8 @@ const AppContextProvider: React.FC<AppProviderProps> = ({ children }) => {
   const contextValue: AppContextType = {
     author,
     setAuthor, // Include the setAuthor property
-    socketId,
-    setSocketId,
+    authorId,
+    setAuthorId,
     nightMode,
     setNightMode,
     // Add more statuses here

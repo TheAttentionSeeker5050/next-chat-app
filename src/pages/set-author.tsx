@@ -22,7 +22,7 @@ import { saveToLocalStorage } from '@/context/localStorageHandlers';
 export default function SetAuthor() {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
-  const { author, socketId, nightMode, setAuthor } = useAppContext();
+  const { author, authorId, nightMode, setAuthor, setAuthorId } = useAppContext();
 
   // state variables
   const [error, setError] = useState<string | null>(null);
@@ -64,11 +64,21 @@ export default function SetAuthor() {
         return;
       }
 
+      // if response json contains user
+      const user = await res.json() as { _id: string; username: string; };
+
+      if (!user) {
+        setError('Could not set the author');
+        return;
+      }
+
       // set app context author
-      setAuthor(newAuthor);
+      setAuthor(user.username);
+      setAuthorId(user._id);
 
       // use the localstorage to set the author using our methods inside context dir
-      saveToLocalStorage('author', newAuthor);
+      saveToLocalStorage('author', user.username);
+      saveToLocalStorage('authorId', user._id);
 
       // use the navigate hook to redirect to set-author page
       await router.push('/', undefined, { shallow: true });
