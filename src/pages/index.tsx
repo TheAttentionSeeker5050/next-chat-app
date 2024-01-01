@@ -21,12 +21,12 @@ import DarkThemeToggleSwitch from '@/components/DarkThemeToggleSwitch';
 // import validation function and error type
 import { validateText } from '@/utils/validators/validateText';
 import { ZodError } from 'zod';
-import { MessageModel } from '@/utils/models/Message.model';
+import { MessageModelFirebase } from '@/utils/models/Message.model';
 import { GetServerSideProps } from 'next';
 
 
 
-export default function Home({ messages }: { messages: MessageModel[] }) {
+export default function Home({ messages }: { messages: MessageModelFirebase[] }) {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
   const { author, setAuthor, authorId, nightMode, setAuthorId } = useAppContext();
@@ -35,7 +35,7 @@ export default function Home({ messages }: { messages: MessageModel[] }) {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string>('');
   // get the messages from the server side props
-  const [messageList, setMessageList] = useState<MessageModel[]>(messages);
+  const [messageList, setMessageList] = useState<MessageModelFirebase[]>(messages);
 
   
   // if author is empty string, redirect to set-author page, use navigate hook
@@ -127,24 +127,26 @@ export default function Home({ messages }: { messages: MessageModel[] }) {
         </nav>
 
         <section className="flex flex-col gap-2 w-full px-6 mb-20">
-          <div className="self-end ">
-            <CurrentUserMessageBubble />
-          </div>
-          <div className="self-start ">
-            <OtherUserMessageBubble />
-          </div>
-          <div className="self-end ">
-            <CurrentUserMessageBubble />
-          </div>
-          <div className="self-start ">
-            <OtherUserMessageBubble />
-          </div>
-          <div className="self-end ">
-            <CurrentUserMessageBubble />
-          </div>
-          <div className="self-start ">
-            <OtherUserMessageBubble />
-          </div>
+          
+          {/* map all the messages, take the code above as example */}
+          {messageList.map((message, index) => {
+            
+            if (message.userId === authorId) {
+              return (
+                <div className="self-end " key={index}>
+                  <CurrentUserMessageBubble author={message.username} authorId={message.userId} message={message.message} date={new Date(message.updatedAt)} />
+                </div>
+              );
+            } else {
+              return (
+                <div className="self-start " key={index}>
+                  <OtherUserMessageBubble/>
+                </div>
+              );
+            }
+          })
+          }
+
           
         </section>
 
@@ -163,14 +165,18 @@ const getMessagesFromDatabase = () => {
   const conversationId = 'default';
   const database = getDatabase(firebase);
   const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');
-  const messagesList: MessageModel[] = [];
+  let messagesArray: MessageModelFirebase[] = [];
 
   onValue(messagesListRef, async (snapshot) => {
-    const data = snapshot.val() as MessageModel;
-    messagesList.push(data);
+    const data = snapshot.val();
+
+    // convert the object to an array and store it in the messagesArray variable
+    messagesArray = Object.values(data);
+    
+    
   });
 
-  return messagesList;
+  return messagesArray;
 };
 
 // get server side props the messages from the firestore database
