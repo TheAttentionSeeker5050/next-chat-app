@@ -1,5 +1,5 @@
 import firebase from '@/firebase';
-import { getDatabase, ref, set } from 'firebase/database';
+import { getDatabase, push, ref, set } from 'firebase/database';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // make interface for request body and response body
@@ -54,15 +54,23 @@ const addNewMessageToDatabase = (message: string, author: string, authorId: stri
       conversationId = 'default';
     }
 
-    // make random unique id for message id of 8 chars and add date to the resulting string
-    const messageId = Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 10) + new Date().getTime().toString(36);
-
+    // change to push instead of set an individual message
     const database = getDatabase(firebase);
-    set(ref(database, 'conversations/' + conversationId + '/messages/' + messageId), {
-      message: message,
+    const messageListRef =ref(database, 'conversations/' + conversationId + '/messages/');
+    const newMessageRef = push(messageListRef);
+    set(newMessageRef, {
+        message: message,
       userId: authorId,
       username: author,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     });
-  };
+
+    // set(ref(database, 'conversations/' + conversationId + '/messages/' + messageId), {
+    //   message: message,
+    //   userId: authorId,
+    //   username: author,
+    //   createdAt: new Date().toISOString(),
+    //   updatedAt: new Date().toISOString()
+    // });
+};

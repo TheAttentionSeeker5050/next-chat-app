@@ -26,7 +26,7 @@ import { GetServerSideProps } from 'next';
 
 
 
-export default function Home() {
+export default function Home({ messages }: { messages: MessageModel[] }) {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
   const { author, setAuthor, authorId, nightMode, setAuthorId } = useAppContext();
@@ -34,7 +34,8 @@ export default function Home() {
   // state variables
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string>('');
-  const [messageList, setMessageList] = useState<MessageModel[]>([]);
+  // get the messages from the server side props
+  const [messageList, setMessageList] = useState<MessageModel[]>(messages);
 
   
   // if author is empty string, redirect to set-author page, use navigate hook
@@ -154,18 +155,33 @@ export default function Home() {
   );
 };
 
+import { getDatabase, onValue, query, ref } from "firebase/database";
+import firebase from '@/firebase';
+
 // function to get the messages from the database
-const getMessagesFromDatabase = () => {};
+const getMessagesFromDatabase = () => {
+  const conversationId = 'default';
+  const database = getDatabase(firebase);
+  const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');
+  const messagesList: MessageModel[] = [];
+
+  onValue(messagesListRef, async (snapshot) => {
+    const data = snapshot.val() as MessageModel;
+    messagesList.push(data);
+  });
+
+  return messagesList;
+};
 
 // get server side props the messages from the firestore database
 export const getServerSideProps: GetServerSideProps = async () => {
   // get the messages from the database
-  const messages = await getMessagesFromDatabase();
+  const messagesArray = await getMessagesFromDatabase();
 
   // return the messages as props
   return {
     props: {
-      messages: null
+      messages: messagesArray
     }
   }
 }
