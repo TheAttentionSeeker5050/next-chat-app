@@ -1,0 +1,68 @@
+import firebase from '@/firebase';
+import { getDatabase, ref, set } from 'firebase/database';
+import type { NextApiRequest, NextApiResponse } from 'next'
+
+// make interface for request body and response body
+interface reqBody {
+    message: string;
+    authorId: string;
+    author: string;
+    conversationId?: string;
+}
+
+interface resBody {
+    message?: string;
+    author?: string;
+    success: boolean;
+    error?: string;
+}
+
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse<resBody>
+) {
+    if (req.method === 'POST') {
+
+        // validate request body with our interface
+        const body: reqBody = req.body;
+        if (!body.message || !body.authorId || !body.author) {
+            res.status(400).json({ success: false, error: 'Invalid request body' });
+            return;
+        }
+
+        try {
+        // add message to database
+            addNewMessageToDatabase(body.message, body.author, body.authorId, body.conversationId);
+        } catch (error) {
+            res.status(500).json({ success: false, error: "Something went wrong while sending the message" });
+            return;
+        }
+        
+
+        res.status(200).json({ success: true});
+        return;
+    } else {
+        // return method not allowed
+        res.status(405).end();
+        return;
+    }
+
+}
+
+const addNewMessageToDatabase = (message: string, author: string, authorId: string, conversationId?: string) => {
+    if (!conversationId) {
+      conversationId = 'default';
+    }
+
+    // make random unique id for message id of 8 chars and add date to the resulting string
+    const messageId = Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 10) + new Date().getTime().toString(36);
+
+    const database = getDatabase(firebase);
+    set(ref(database, 'conversations/' + conversationId + '/messages/' + messageId), {
+      message: message,
+      userId: authorId,
+      username: author,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    });
+  };
