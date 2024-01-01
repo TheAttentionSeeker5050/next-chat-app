@@ -25,7 +25,7 @@ import { ZodError } from 'zod';
 export default function Home() {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
-  const { author, setAuthor, socketId, nightMode } = useAppContext();
+  const { author, setAuthor, authorId, nightMode, setAuthorId } = useAppContext();
 
   // state variables
   const [error, setError] = useState<string | null>(null);
@@ -41,9 +41,11 @@ export default function Home() {
     if (author === '') {
       // lookout on localstorage for author value, using the getFromLocalStorage function
       const authorFromLocalStorage = localStorage.getItem('author');
-      if (authorFromLocalStorage) {
+      const authorIdFromLocalStorage = localStorage.getItem('authorId');
+      if (authorFromLocalStorage && authorIdFromLocalStorage) {
         // set the author in the context
         setAuthor(authorFromLocalStorage);
+        setAuthorId(authorIdFromLocalStorage);
       } else {
         // use the navigate hook to redirect to set-author page if author is empty
         router.push('/set-author', undefined, { shallow: true });
