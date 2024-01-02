@@ -1,4 +1,5 @@
 import firebase from '@/firebase';
+import { MessageContentType } from '@/utils/models/Message.model';
 import { getDatabase, push, ref, set } from 'firebase/database';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -64,7 +65,7 @@ const addNewMessageToDatabase = (message: string, author: string, authorId: stri
       username: author,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      messageType: "text",
+      contentType: MessageContentType.TEXT,
       _id: newMessageRef.key
     });
     

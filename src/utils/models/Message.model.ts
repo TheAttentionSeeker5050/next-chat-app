@@ -24,7 +24,7 @@ export interface MessageModelFirebase {
     userId: string,
     username: string,
     message: string,
-    messageType: string,
+    contentType: MessageContentType,
     createdAt: Date,
     updatedAt: Date,
 }
