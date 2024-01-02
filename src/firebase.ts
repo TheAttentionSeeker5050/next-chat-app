@@ -5,12 +5,6 @@ import 'firebase/database';
 import type { FirebaseApp } from 'firebase/app';
 import { initializeApp } from "firebase/app";
 
-// to access the variables on the client
-// import getConfig from 'next/config';
-
-// use environment variables
-
-// const { publicRuntimeConfig } = getConfig();
 
 // declare types for the firebase config
 interface FirebaseConfig {
@@ -36,7 +30,6 @@ let firebaseConfig : FirebaseConfig = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID as string
 };
 
-// console.log(firebaseConfig);
 
 let firebaseApp: FirebaseApp;
 

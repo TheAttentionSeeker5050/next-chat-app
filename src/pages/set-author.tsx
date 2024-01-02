@@ -1,5 +1,5 @@
 import { Inter } from 'next/font/google';
-import { Dispatch, FormEvent, SetStateAction, useState } from 'react'; // Add the import statement for Dispatch and SetStateAction
+import { FormEvent, useState } from 'react'; // Add the import statement for Dispatch and SetStateAction
 
 const inter = Inter({ subsets: ['latin'] });
 
