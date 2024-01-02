@@ -25,13 +25,12 @@ import { MessageModelFirebase } from '@/utils/models/Message.model';
 import { GetServerSideProps } from 'next';
 
 // firebase imports
-import { Database, DatabaseReference, getDatabase, off, onChildAdded, onValue, query, ref } from "firebase/database";
+import { getDatabase, off, onChildAdded, onValue, ref } from "firebase/database";
 import firebase from '@/firebase';
 
 
 
 export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
-  // export default function Home({ messages, database, messagesListRef}: {messages: MessageModelFirebase[], database: Database, messagesListRef: DatabaseReference}) {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
   const { author, setAuthor, authorId, nightMode, setAuthorId } = useAppContext();
@@ -128,7 +127,7 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
     // add the message to the database using the addNewMessageToDatabase function
     try {
       // make post request to the api on /api/add-message
-      fetch('/api/add-message', {
+      fetch('/api/send-message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -146,7 +145,6 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
     
     // delete the message from the state variable
     setMessage('');
-    // focus on #bottom-messages div
     
     // use the navigate hook to redirect to set-author page
     router.push('/#bottom-messages', undefined, { shallow: true });
@@ -159,13 +157,13 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
         <title>Next.js Chat App - Group Conversation</title>
         <meta name="description" content="Group Conversation" />
       </Head>
-      <main className={`${inter.className} flex flex-col gap-8`}>
-        <nav className="bg-back-secondary-light pt-8 pb-10 flex flex-col gap-4 items-center">
+      <main className={`${inter.className} flex flex-col gap-6`}>
+        <nav className="bg-back-secondary-light pt-8 pb-10 mb-4 flex flex-col gap-4 items-center">
           <h1 className='text-3xl font-semibold '>Group Conversation</h1>
           <DarkThemeToggleSwitch />
         </nav>
 
-        <section className="flex flex-col gap-2 w-full px-6 mb-20">
+        <section id="message-list-container" className="flex flex-col gap-6 w-full px-6 mb-20">
           
           {/* map all the messages, take the code above as example */}
           {
@@ -187,7 +185,7 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
             })
           }
 
-          <div id='bottom-messages'></div>
+          <p id='bottom-messages' className='mb-24'></p>
           
         </section>
 
