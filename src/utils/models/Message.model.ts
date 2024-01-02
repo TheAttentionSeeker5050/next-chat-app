@@ -20,6 +20,7 @@ export interface MessageModel {
 }
 
 export interface MessageModelFirebase {
+    _id: string,
     userId: string,
     username: string,
     message: string,
