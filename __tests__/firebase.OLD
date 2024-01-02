@@ -1,0 +1,36 @@
+import {
+    assertSucceeds,
+    assertFails,
+    initializeTestEnvironment,
+    RulesTestEnvironment,
+  } from "@firebase/rules-unit-testing";
+
+import * as fs from "fs";
+  
+let testEnv: RulesTestEnvironment;
+
+beforeAll(async () => {
+  testEnv = await initializeTestEnvironment({
+    projectId:  "next-chat-app-f0e97", // process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    firestore: {
+      rules: fs.readFileSync("firestore.rules", "utf8"), // Path to your Firestore rules file
+    //   host: "127.0.0.1",
+    //   port: 9000,
+    },
+    
+  });
+});
+
+afterAll(() => {
+  testEnv.cleanup();
+});
+
+test("Allow read access to a specific document", async () => {
+  const alice = testEnv.authenticatedContext("alice");
+  await assertSucceeds(alice.firestore().doc("users/alice").get());
+});
+
+test("Disallow write access to a specific document", async () => {
+  const bob = testEnv.authenticatedContext("bob");
+  await assertFails(bob.firestore().doc("users/alice").set({ data: "some data" }));
+});

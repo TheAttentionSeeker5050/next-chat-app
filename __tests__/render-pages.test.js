@@ -10,6 +10,10 @@ import Custom404 from "@/pages/404";
 import Custom500 from "@/pages/500";
 import { afterAll } from "@jest/globals";
 
+import { initializeTestEnvironment, RulesTestEnvironment } from '@firebase/rules-unit-testing';
+import * as fs from 'fs';
+
+
 // mock the next router
 jest.mock('next/router', () => ({
     __esModule: true,
@@ -20,10 +24,27 @@ afterAll(() => {
     jest.clearAllMocks();
 });
 
+/// the firebase mock environment
+let testEnv;
 
+beforeAll(async () => {
+  // Set up the Firebase Realtime Database Emulator
+  testEnv = await initializeTestEnvironment({
+    projectId: 'next-chat-app-f0e97',
+    database: {
+      rules: fs.readFileSync('database.rules.json', 'utf8'), // Path to your database rules
+      host: '127.0.0.1',
+      port: 9000,
+    },
+  });
+});
 
 // if can start the Main page, and get the main tag, it means that the app is working
 describe("test-render-home-page", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     it("should render home page without throwing an error", async () => {
 
         // mock the useRouter hook 
