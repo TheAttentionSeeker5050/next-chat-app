@@ -24,9 +24,14 @@ import { ZodError } from 'zod';
 import { MessageModelFirebase } from '@/utils/models/Message.model';
 import { GetServerSideProps } from 'next';
 
+// firebase imports
+import { Database, DatabaseReference, getDatabase, off, onChildAdded, onValue, query, ref } from "firebase/database";
+import firebase from '@/firebase';
 
 
-export default function Home({ messages }: { messages: MessageModelFirebase[] }) {
+
+export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
+  // export default function Home({ messages, database, messagesListRef}: {messages: MessageModelFirebase[], database: Database, messagesListRef: DatabaseReference}) {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
   const { author, setAuthor, authorId, nightMode, setAuthorId } = useAppContext();
@@ -40,6 +45,7 @@ export default function Home({ messages }: { messages: MessageModelFirebase[] })
   
   // if author is empty string, redirect to set-author page, use navigate hook
   let router = useRouter();
+
   
   
   useEffect(() => {
@@ -60,6 +66,33 @@ export default function Home({ messages }: { messages: MessageModelFirebase[] })
     }
 
   }, [author, authorId, router, setAuthor, setAuthorId]);
+
+  useEffect(() => {
+    const conversationId = 'default';
+
+    // add listener for the messageList
+    const database = getDatabase(firebase);
+    const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');
+
+    // Listener for new messages
+    const childAddedListener = onChildAdded(messagesListRef, (snapshot) => {
+      const newMessage = snapshot.val();
+
+      // Check if the message with the same _id already exists
+      const isMessageAlreadyExists = messageList.some((message) => message._id === newMessage._id);
+      
+      // Update state with the new message
+      if (!isMessageAlreadyExists) {
+        setMessageList((prevMessages) => [...prevMessages, newMessage]);
+      };
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      off(messagesListRef, 'child_added', childAddedListener);
+    };
+
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
@@ -110,8 +143,14 @@ export default function Home({ messages }: { messages: MessageModelFirebase[] })
       setError("Error sending message");
     }
 
+    
     // delete the message from the state variable
     setMessage('');
+    // focus on #bottom-messages div
+    
+    // use the navigate hook to redirect to set-author page
+    router.push('/#bottom-messages', undefined, { shallow: true });
+    
   }
 
   return (
@@ -129,24 +168,26 @@ export default function Home({ messages }: { messages: MessageModelFirebase[] })
         <section className="flex flex-col gap-2 w-full px-6 mb-20">
           
           {/* map all the messages, take the code above as example */}
-          {messageList.map((message, index) => {
-            
-            if (message.userId === authorId) {
-              return (
-                <div className="self-end " key={index}>
-                  <CurrentUserMessageBubble author={message.username} authorId={message.userId} message={message.message} date={new Date(message.updatedAt)} />
-                </div>
-              );
-            } else {
-              return (
-                <div className="self-start " key={index}>
-                  <OtherUserMessageBubble author={message.username} authorId={message.userId} message={message.message} date={new Date(message.updatedAt)} />
-                </div>
-              );
-            }
-          })
+          {
+            messageList.map((message, index) => {
+              
+              if (message.userId === authorId) {
+                return (
+                  <div className="self-end " key={index}>
+                    <CurrentUserMessageBubble author={message.username} authorId={message.userId} message={message.message} date={new Date(message.updatedAt)} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div className="self-start " key={index}>
+                    <OtherUserMessageBubble author={message.username} authorId={message.userId} message={message.message} date={new Date(message.updatedAt)} />
+                  </div>
+                );
+              }
+            })
           }
 
+          <div id='bottom-messages'></div>
           
         </section>
 
@@ -156,9 +197,6 @@ export default function Home({ messages }: { messages: MessageModelFirebase[] })
     </>
   );
 };
-
-import { getDatabase, onValue, query, ref } from "firebase/database";
-import firebase from '@/firebase';
 
 // function to get the messages from the database
 const getMessagesFromDatabase = () => {
@@ -172,22 +210,24 @@ const getMessagesFromDatabase = () => {
 
     // convert the object to an array and store it in the messagesArray variable
     messagesArray = Object.values(data);
-    
-    
+
   });
 
-  return messagesArray;
+  // detach 
+  off(messagesListRef, 'value');
+
+  return {database, messagesListRef, messagesArray};
 };
 
 // get server side props the messages from the firestore database
 export const getServerSideProps: GetServerSideProps = async () => {
   // get the messages from the database
-  const messagesArray = await getMessagesFromDatabase();
+  const { database, messagesListRef, messagesArray } = await getMessagesFromDatabase();
 
   // return the messages as props
   return {
     props: {
-      messages: messagesArray
+      messages: messagesArray,
     }
   }
 }

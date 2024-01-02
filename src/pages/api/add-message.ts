@@ -63,7 +63,8 @@ const addNewMessageToDatabase = (message: string, author: string, authorId: stri
       userId: authorId,
       username: author,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
+      _id: newMessageRef.key
     });
     
 };
