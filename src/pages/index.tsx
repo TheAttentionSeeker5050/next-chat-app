@@ -165,8 +165,8 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
 
         <section id="message-list-container" className="flex flex-col gap-6 w-full px-6 mb-20">
           
-          {/* map all the messages, take the code above as example */}
-          {
+          {/* map all the messages, take the code above as example, but only if there are messages to display */}
+          { messageList &&
             messageList.map((message, index) => {
               
               if (message.userId === authorId) {

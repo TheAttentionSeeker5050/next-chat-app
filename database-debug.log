@@ -1,12 +1,31 @@
 WARNING: An illegal reflective access operation has occurred
-WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/home/nicolas/.cache/firebase/emulators/firebase-database-emulator-v4.11.2.jar) to field sun.nio.ch.SelectorImpl.selectedKeys
+WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/root/.cache/firebase/emulators/firebase-database-emulator-v4.11.2.jar) to field sun.nio.ch.SelectorImpl.selectedKeys
 WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
 WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
 WARNING: All illegal access operations will be denied in a future release
-15:33:43.115 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
-15:33:43.246 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
-15:34:47.961 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - fake-server successfully activated FBKV (SurveyIdle(0)) wait: 129ms, init: 0ms
-15:36:48.101 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
-15:36:48.106 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: fake-server
-15:36:48.111 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for fake-server
-15:36:48.115 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
+16:28:33.095 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+16:28:33.222 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+16:28:33.895 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - next-chat-app-f0e97-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 100ms, init: 0ms
+16:28:33.955 [NamespaceSystem-blocking-namespace-operation-dispatcher-7] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97-default-rtdb status Active to Active
+16:28:42.031 [FirebaseWorkerPool-1-3] WARN com.firebase.core.persistence.backend.dummy.EmulatorMetadataPersistence - Multiple projectIds are not recommended in single project mode. Requested 
+namespace next-chat-app-f0e97, but the emulator is configured for next-chat-app-f0e97-default-rtdb. To 
+opt-out of single project mode add/set the singleProjectMode: false property in 
+the firebase.json emulators config. 
+16:28:42.038 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - next-chat-app-f0e97 successfully activated FBKV (SurveyIdle(0)) wait: 3ms, init: 0ms
+16:28:42.048 [NamespaceSystem-blocking-namespace-operation-dispatcher-8] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+16:29:49.542 [NamespaceSystem-blocking-namespace-operation-dispatcher-13] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+16:31:19.146 [NamespaceSystem-blocking-namespace-operation-dispatcher-15] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+16:43:50.129 [NamespaceSystem-blocking-namespace-operation-dispatcher-17] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+16:44:09.595 [NamespaceSystem-blocking-namespace-operation-dispatcher-22] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+16:44:25.643 [NamespaceSystem-blocking-namespace-operation-dispatcher-23] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+16:44:47.312 [NamespaceSystem-blocking-namespace-operation-dispatcher-24] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+16:44:47.866 [FirebaseWorkerPool-1-3] WARN com.firebase.core.persistence.backend.dummy.EmulatorMetadataPersistence - Multiple projectIds are not recommended in single project mode. Requested 
+namespace your-firebase-project-id, but the emulator is configured for next-chat-app-f0e97,next-chat-app-f0e97-default-rtdb. To 
+opt-out of single project mode add/set the singleProjectMode: false property in 
+the firebase.json emulators config. 
+16:44:47.869 [NamespaceSystem-akka.actor.default-dispatcher-21] INFO com.firebase.core.namespace.NamespaceActor - your-firebase-project-id successfully activated FBKV (SurveyIdle(0)) wait: 1ms, init: 0ms
+16:44:47.872 [NamespaceSystem-blocking-namespace-operation-dispatcher-25] INFO com.firebase.core.namespace.StateManager - Namespace your-firebase-project-id status Active to Active
+16:45:27.364 [NamespaceSystem-blocking-namespace-operation-dispatcher-27] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+16:45:27.895 [NamespaceSystem-blocking-namespace-operation-dispatcher-27] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+16:46:55.587 [NamespaceSystem-blocking-namespace-operation-dispatcher-28] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+16:46:56.193 [NamespaceSystem-blocking-namespace-operation-dispatcher-28] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
