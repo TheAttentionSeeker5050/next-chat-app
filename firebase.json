@@ -1,0 +1,11 @@
+{
+  "conversations": {
+    "rules": {
+      ".read": true,
+      ".write": true
+    }
+  },
+  "emulators": {
+    "singleProjectMode": true
+  }
+}
