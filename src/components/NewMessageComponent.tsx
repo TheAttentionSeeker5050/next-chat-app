@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 
 // the props interface for this component
@@ -27,11 +27,6 @@ export default function NewMessageComponent({error, handleAddNewMessage, message
         }
 
     }, [message]);
-
-    // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //     handleAddNewMessage(e);
-    //   };
     
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         // this will submit the form if the user presses the Enter or Intro key
