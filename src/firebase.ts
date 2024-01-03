@@ -36,15 +36,14 @@ let firebaseConfig : FirebaseConfig = {
 let firebaseApp: FirebaseApp;
 
 // initialize firebase app
-firebaseApp = initializeApp(firebaseConfig);
-
-const testFirebaseApp: FirebaseApp = firebase.initializeApp({
-    databaseName: "my-database",
-    auth: { uid: "admin" }
-});
+if (process.env.NODE_ENV === 'test') {
+    firebaseApp = firebase.initializeApp({
+        databaseName: "my-database",
+        auth: { uid: "admin" }
+    });
+    
+} else {
+    firebaseApp = initializeApp(firebaseConfig);
+}
 
 export default firebaseApp;
-
-module.exports = {
-    testFirebaseApp,
-};

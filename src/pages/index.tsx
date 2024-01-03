@@ -72,13 +72,11 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
 
     // get the database
     let database : Database;
+    database = getDatabase(firebase);
 
     if (process.env.NODE_ENV === 'test') {
-        database = getDatabase(testFirebaseApp);
         connectDatabaseEmulator(database, 'localhost', 9000);
-    } else {
-        database = getDatabase(firebase);
-    }
+    } 
 
     // get the messages list reference
     const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');
