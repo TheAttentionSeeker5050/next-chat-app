@@ -13,6 +13,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: test-environment
 
     steps:
       - name: Checkout Repository
@@ -60,6 +61,7 @@ jobs:
 
   failure:
     runs-on: ubuntu-latest
+    environment: test-environment
     steps:
       - name: Check for Failed Tests
         run: exit 0  # This step always succeeds; it's used to trigger the 'failure' job
