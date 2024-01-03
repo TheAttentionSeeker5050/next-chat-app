@@ -4,6 +4,7 @@ import 'firebase/database';
 // Explicitly import types
 import type { FirebaseApp } from 'firebase/app';
 import { initializeApp } from "firebase/app";
+import { connectDatabaseEmulator, getDatabase } from 'firebase/database';
 
 
 // declare types for the firebase config
