@@ -37,7 +37,7 @@ jobs:
       - run: npm install -g firebase-tools
       - run: npm ci
 
-      - run: firebase emulators:exec --only database \"npm run test --exit\"
+      - run: firebase emulators:exec --only database \"npm run test\"
 
       # - name: Run Tests
       #   run: npm test-gh-action
