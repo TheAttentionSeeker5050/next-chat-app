@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "test-gh-action": "firebase emulators:exec --only database jest",
     "test:ci": "jest --ci"
   },
   "dependencies": {
