@@ -1,3 +1,4 @@
+import firebaseApp from "@/firebase";
 import { getMessagesFromDatabase } from "@/pages";
 import { addNewMessageToDatabase } from "@/pages/api/send-message";
 // import { MessageModelFirebase } from "@/utils/models/Message.model";

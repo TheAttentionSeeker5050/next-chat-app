@@ -27,7 +27,6 @@ import { GetServerSideProps } from 'next';
 // firebase imports
 import { Database, connectDatabaseEmulator, getDatabase, off, onChildAdded, onValue, ref } from "firebase/database";
 import firebase from '@/firebase';
-import {testFirebaseApp} from '@/firebase/testFirebaseApp';
 
 
 
@@ -72,32 +71,31 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
 
     // get the database
     let database : Database;
-    database = getDatabase(firebase);
 
-    if (process.env.NODE_ENV === 'test') {
-        connectDatabaseEmulator(database, 'localhost', 9000);
-    } 
-
-    // get the messages list reference
-    const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');
-
-    // Listener for new messages
-    const childAddedListener = onChildAdded(messagesListRef, (snapshot) => {
-      const newMessage = snapshot.val();
-
-      // Check if the message with the same _id already exists
-      const isMessageAlreadyExists = messageList.some((message) => message._id === newMessage._id);
-      
-      // Update state with the new message
-      if (!isMessageAlreadyExists) {
-        setMessageList((prevMessages) => [...prevMessages, newMessage]);
-      };
-    });
-
-    // Clean up the listener when the component unmounts
-    return () => {
-      off(messagesListRef, 'child_added', childAddedListener);
-    };
+    if (process.env.NODE_ENV !== 'test') {
+        database = getDatabase(firebase);
+        
+        // get the messages list reference
+        const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');
+        
+        // Listener for new messages
+        const childAddedListener = onChildAdded(messagesListRef, (snapshot) => {
+          const newMessage = snapshot.val();
+          
+          // Check if the message with the same _id already exists
+          const isMessageAlreadyExists = messageList.some((message) => message._id === newMessage._id);
+          
+          // Update state with the new message
+          if (!isMessageAlreadyExists) {
+            setMessageList((prevMessages) => [...prevMessages, newMessage]);
+          };
+        });
+        
+        // Clean up the listener when the component unmounts
+        return () => {
+          off(messagesListRef, 'child_added', childAddedListener);
+        };
+    }
 
   }, []);
 
