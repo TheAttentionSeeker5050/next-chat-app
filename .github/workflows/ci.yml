@@ -37,11 +37,11 @@ jobs:
       - run: npm install -g firebase-tools
       - run: npm ci
 
-      - run: firebase emulators:start --only database
+      - run: firebase emulators:exec --only database \"npm run test --exit\"
 
-      - name: Run Tests
-        run: npm test # test-gh-action
-        id: test-result
+      # - name: Run Tests
+      #   run: npm test-gh-action
+      #   id: test-result
 
       - name: Throw Error on Test Failure
         run: |
