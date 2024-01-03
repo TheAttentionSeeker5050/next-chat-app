@@ -1,12 +1,14 @@
+import { getMessagesFromDatabase } from "@/pages";
 import { addNewMessageToDatabase } from "@/pages/api/send-message";
+// import { MessageModelFirebase } from "@/utils/models/Message.model";
 import {
-    assertSucceeds,
-    assertFails,
+    // assertSucceeds,
+    // assertFails,
     initializeTestEnvironment,
     RulesTestEnvironment,
-    RulesTestContext,
+    // RulesTestContext,
 } from "@firebase/rules-unit-testing";
-import { Database, ThenableReference, connectDatabaseEmulator, getDatabase, onValue, ref } from "firebase/database";
+import { Database, ThenableReference, connectDatabaseEmulator, getDatabase, off, onChildAdded, onValue, ref } from "firebase/database";
 import * as fs from "fs";
 import { ObjectId } from "mongodb";
 
@@ -46,7 +48,8 @@ test("Push new message and get message by item key", async () => {
     message,
     author,
     authorId,
-    conversationId
+    conversationId,
+    database
   );
 
   expect(newMessageRef.key !== null).toBe(true);
@@ -61,4 +64,50 @@ test("Push new message and get message by item key", async () => {
     expect(getNewMessageVals.authorId).toEqual(authorId);
     expect(getNewMessageVals.conversationId).toEqual(conversationId);
   });
+});
+
+test("test push new message and update list via listener", async () => {
+
+  
+
+  // prepare the data
+  const message = "Hello World";
+  const author = "admin";
+  const authorId = new ObjectId().toHexString();
+  const conversationId = "default";
+
+  // push the data to the database and store the key
+  const newMessageRef = await addNewMessageToDatabase(
+    message,
+    author,
+    authorId,
+    conversationId,
+    database
+  );
+
+  // expect request to be successful
+  
+
+  const { messagesListRef, messagesArray } = await getMessagesFromDatabase(database);
+
+  // add a message child added listener
+  const childAddedListener = onChildAdded(messagesListRef, (snapshot) => {
+    const newMessage = snapshot.val();
+
+    // assert that the size of the array is 1
+    expect(messagesArray.length).toEqual(1);
+
+    // expect the first item in the array to be the new message
+    expect(messagesArray[0].message).toEqual(newMessage.message);
+
+    // expect message key to be the same as the key from the new message ref (there is a field _id where we store the key inside the message object)
+    expect(messagesArray[0]._id).toEqual(newMessageRef.key);
+
+    // ensure that the message is not null
+    expect(newMessage.message.length).toBeGreaterThan(0);
+
+  });
+
+  // shut down the listener
+  off(messagesListRef, 'child_added', childAddedListener);
 });

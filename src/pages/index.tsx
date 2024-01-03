@@ -1,5 +1,4 @@
 // imports related to next.js custom media
-// import Image from 'next/image';
 import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -70,9 +69,7 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
   useEffect(() => {
     const conversationId = 'default';
 
-    // add listener for the messageList
-    // const database = getDatabase(firebase);
-    // change to push instead of set an individual message
+    // get the database
     let database : Database;
 
     if (process.env.NODE_ENV === 'test') {
@@ -82,6 +79,7 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
         database = getDatabase(firebase);
     }
 
+    // get the messages list reference
     const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');
 
     // Listener for new messages
@@ -208,17 +206,11 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
 };
 
 // function to get the messages from the database
-export const getMessagesFromDatabase = () => {
+export const getMessagesFromDatabase = (database?:Database) => {
   const conversationId = 'default';
-  // const database = getDatabase(firebase);
-  // change to push instead of set an individual message
-  let database : Database;
 
-  if (process.env.NODE_ENV === 'test') {
-      database = getDatabase();
-      connectDatabaseEmulator(database, 'localhost', 9000);
-  } else {
-      database = getDatabase(firebase);
+  if (database === undefined || database === null) {
+    database = getDatabase(firebase);
   }
   
   const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');

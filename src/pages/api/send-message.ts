@@ -1,6 +1,6 @@
 import firebase from '@/firebase';
 import { MessageContentType } from '@/utils/models/Message.model';
-import { Database, connectDatabaseEmulator, getDatabase, push, ref, set } from 'firebase/database';
+import { Database, DatabaseReference, connectDatabaseEmulator, getDatabase, push, ref, set } from 'firebase/database';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // make interface for request body and response body
@@ -50,19 +50,12 @@ export default async function handler(
 
 }
 
-export const addNewMessageToDatabase = (message: string, author: string, authorId: string, conversationId?: string) => {
+export const addNewMessageToDatabase = (message: string, author: string, authorId: string, conversationId?: string, database?: Database) => {
     if (!conversationId) {
       conversationId = 'default';
     }
 
-
-    // change to push instead of set an individual message
-    let database : Database;
-
-    if (process.env.NODE_ENV === 'test') {
-        database = getDatabase();
-        connectDatabaseEmulator(database, 'localhost', 9000);
-    } else {
+    if (database === undefined || database === null) {
         database = getDatabase(firebase);
     }
 
