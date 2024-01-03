@@ -26,16 +26,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - name: Install Dependencies
-        run: npm install
-
+          
       - name: Set Up Java
         uses: actions/setup-java@v3
         id: setup-java
         with:
           distribution: 'adopt'
           java-version: '17'
+          
+      - name: Install Dependencies
+        run: npm install
+
 
       - name: Set Up Firebase
         id: setup-firebase
