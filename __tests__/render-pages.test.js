@@ -20,10 +20,6 @@ jest.mock('next/router', () => ({
     useRouter: jest.fn(),
 }));
 
-afterAll(() => {
-    jest.clearAllMocks();
-});
-
 /// the firebase mock environment
 let testEnv;
 
@@ -37,6 +33,14 @@ beforeAll(async () => {
       port: 9000,
     },
   });
+});
+
+
+
+afterAll(() => {
+    jest.clearAllMocks();
+    testEnv.cleanup();
+
 });
 
 // if can start the Main page, and get the main tag, it means that the app is working

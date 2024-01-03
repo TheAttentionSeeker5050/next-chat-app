@@ -27,6 +27,7 @@ import { GetServerSideProps } from 'next';
 // firebase imports
 import { Database, connectDatabaseEmulator, getDatabase, off, onChildAdded, onValue, ref } from "firebase/database";
 import firebase from '@/firebase';
+import {testFirebaseApp} from '@/firebase/testFirebaseApp';
 
 
 
@@ -73,7 +74,7 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
     let database : Database;
 
     if (process.env.NODE_ENV === 'test') {
-        database = getDatabase();
+        database = getDatabase(testFirebaseApp);
         connectDatabaseEmulator(database, 'localhost', 9000);
     } else {
         database = getDatabase(firebase);

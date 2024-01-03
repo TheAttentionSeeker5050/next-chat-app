@@ -1,10 +1,11 @@
-import firebase from 'firebase/app';
+// import firebase from 'firebase/app';
 import 'firebase/database';
 
 // Explicitly import types
 import type { FirebaseApp } from 'firebase/app';
 import { initializeApp } from "firebase/app";
 import { connectDatabaseEmulator, getDatabase } from 'firebase/database';
+import firebase from 'firebase/compat/app';
 
 
 // declare types for the firebase config
@@ -37,4 +38,13 @@ let firebaseApp: FirebaseApp;
 // initialize firebase app
 firebaseApp = initializeApp(firebaseConfig);
 
+const testFirebaseApp: FirebaseApp = firebase.initializeApp({
+    databaseName: "my-database",
+    auth: { uid: "admin" }
+});
+
 export default firebaseApp;
+
+module.exports = {
+    testFirebaseApp,
+};
