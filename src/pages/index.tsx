@@ -1,4 +1,5 @@
-import Image from 'next/image';
+// imports related to next.js custom media
+// import Image from 'next/image';
 import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -25,7 +26,7 @@ import { MessageModelFirebase } from '@/utils/models/Message.model';
 import { GetServerSideProps } from 'next';
 
 // firebase imports
-import { getDatabase, off, onChildAdded, onValue, ref } from "firebase/database";
+import { Database, connectDatabaseEmulator, getDatabase, off, onChildAdded, onValue, ref } from "firebase/database";
 import firebase from '@/firebase';
 
 
@@ -70,7 +71,17 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
     const conversationId = 'default';
 
     // add listener for the messageList
-    const database = getDatabase(firebase);
+    // const database = getDatabase(firebase);
+    // change to push instead of set an individual message
+    let database : Database;
+
+    if (process.env.NODE_ENV === 'test') {
+        database = getDatabase();
+        connectDatabaseEmulator(database, 'localhost', 9000);
+    } else {
+        database = getDatabase(firebase);
+    }
+
     const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');
 
     // Listener for new messages
@@ -197,9 +208,19 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
 };
 
 // function to get the messages from the database
-const getMessagesFromDatabase = () => {
+export const getMessagesFromDatabase = () => {
   const conversationId = 'default';
-  const database = getDatabase(firebase);
+  // const database = getDatabase(firebase);
+  // change to push instead of set an individual message
+  let database : Database;
+
+  if (process.env.NODE_ENV === 'test') {
+      database = getDatabase();
+      connectDatabaseEmulator(database, 'localhost', 9000);
+  } else {
+      database = getDatabase(firebase);
+  }
+  
   const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');
   let messagesArray: MessageModelFirebase[] = [];
 
