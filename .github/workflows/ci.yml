@@ -35,12 +35,11 @@ jobs:
           java-version: '17'
 
       - name: Set Up Firebase
-        uses: w9jds/setup-firebase@main
+        uses: joinflux/firebase-tools@v9.16.0
         with:
-          tools-version: 11.9.0
-          firebase_token: ${{ secrets.FIREBASE_TOKEN }}
-          
-      - run: firebase emulators:start --only database 
+          args: emulators:start --only database 
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Run Tests
         run: npm test # test-gh-action
