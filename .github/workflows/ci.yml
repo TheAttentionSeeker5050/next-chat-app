@@ -38,7 +38,7 @@ jobs:
       - run: npm ci
 
       - name: Run Firebase Emulator and perform tests
-        run: npm run test
+        run: npm run test-gh-action
 
       # - name: Run Tests
       #   run: npm test-gh-action
