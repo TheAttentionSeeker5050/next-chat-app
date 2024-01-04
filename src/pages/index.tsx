@@ -73,7 +73,7 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
     let database : Database;
 
     if (process.env.NODE_ENV !== 'test') {
-        database = getDatabase(firebase);
+        database = getDatabase();
         
         // get the messages list reference
         const messagesListRef = ref(database, 'conversations/' + conversationId + '/messages/');
@@ -185,9 +185,9 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
         <title>Next.js Chat App - Group Conversation</title>
         <meta name="description" content="Group Conversation" />
       </Head>
-      <main className={`${inter.className} flex flex-col gap-6`}>
+      <main className={`${inter.className} ${nightMode === true ? 'dark' : ''}  flex flex-col gap-6`}>
         <nav className="bg-back-secondary-light pt-8 pb-10 mb-4 flex flex-col gap-4 items-center">
-          <h1 className='text-3xl font-semibold '>Group Conversation</h1>
+          <h1 className='text-3xl font-semibold dark:text-red-500'>Group Conversation</h1>
           <DarkThemeToggleSwitch />
         </nav>
 
