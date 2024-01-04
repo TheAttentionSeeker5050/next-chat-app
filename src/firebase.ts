@@ -35,11 +35,24 @@ let firebaseConfig : FirebaseConfig = {
 let firebaseApp: FirebaseApp;
 
 // initialize firebase app
-firebaseApp = initializeApp(firebaseConfig);
+
 
 if (process.env.NODE_ENV === 'development') {
-    // connect to emulator
-    connectDatabaseEmulator(getDatabase(firebaseApp), '127.0.0.1', 9000, { mockUserToken: "admin" });
+    // check if there are running emulators
+    firebaseApp = initializeApp({
+        projectId: "next-chat-app-f0e97",
+    });
+    console.log(firebaseApp.options.databaseURL);
+    if (process.env.FIREBASE_DATABASE_EMULATOR_HOST?.length) {
+        console.log('Already connected to the emulator');
+    } else {
+        connectDatabaseEmulator(getDatabase(
+            firebaseApp
+            ), '127.0.0.1', 9000, { mockUserToken: "admin" });
+        }
+} else {
+        
+    firebaseApp = initializeApp(firebaseConfig);
 }
 
 export default firebaseApp;

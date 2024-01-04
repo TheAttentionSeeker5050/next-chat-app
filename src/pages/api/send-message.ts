@@ -1,6 +1,6 @@
 import firebase from '@/firebase';
 import { MessageContentType } from '@/utils/models/Message.model';
-import { Database, DatabaseReference, connectDatabaseEmulator, getDatabase, push, ref, set } from 'firebase/database';
+import { Database, DatabaseReference, connectDatabaseEmulator, getDatabase, off, push, ref, set } from 'firebase/database';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // make interface for request body and response body
@@ -70,6 +70,8 @@ export const addNewMessageToDatabase = (message: string, author: string, authorI
       contentType: MessageContentType.TEXT,
       _id: newMessageRef.key
     });
+
+    off(newMessageRef);
 
     return newMessageRef;
     
