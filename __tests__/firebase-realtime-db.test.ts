@@ -9,6 +9,7 @@ import {
     RulesTestEnvironment,
     // RulesTestContext,
 } from "@firebase/rules-unit-testing";
+import { initializeApp } from "firebase/app";
 import { Database, ThenableReference, connectDatabaseEmulator, getDatabase, off, onChildAdded, onValue, ref } from "firebase/database";
 import * as fs from "fs";
 import { ObjectId } from "mongodb";
@@ -27,7 +28,10 @@ beforeAll(async () => {
     },
   });
 
-  database = getDatabase();
+
+  const firebaseApp = testEnv.unauthenticatedContext().database().app;
+
+  database = getDatabase(firebaseApp);
   connectDatabaseEmulator(database, 'localhost', 9000);
 });
 
