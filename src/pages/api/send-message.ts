@@ -56,7 +56,7 @@ export const addNewMessageToDatabase = (message: string, author: string, authorI
     }
 
     if (database === undefined || database === null) {
-        database = getDatabase(firebase);
+        database = getDatabase();
     }
 
     const messageListRef =ref(database, 'conversations/' + conversationId + '/messages/');
