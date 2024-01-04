@@ -37,4 +37,9 @@ let firebaseApp: FirebaseApp;
 // initialize firebase app
 firebaseApp = initializeApp(firebaseConfig);
 
+if (process.env.NODE_ENV === 'development') {
+    // connect to emulator
+    connectDatabaseEmulator(getDatabase(firebaseApp), '127.0.0.1', 9000, { mockUserToken: "admin" });
+}
+
 export default firebaseApp;
