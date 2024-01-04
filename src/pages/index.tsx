@@ -25,7 +25,7 @@ import { MessageModelFirebase } from '@/utils/models/Message.model';
 import { GetServerSideProps } from 'next';
 
 // firebase imports
-import { Database, connectDatabaseEmulator, getDatabase, off, onChildAdded, onValue, ref } from "firebase/database";
+import { Database, connectDatabaseEmulator, getDatabase, off, onChildAdded, onChildRemoved, onValue, ref } from "firebase/database";
 import firebase from '@/firebase';
 
 
@@ -90,11 +90,20 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
             setMessageList((prevMessages) => [...prevMessages, newMessage]);
           };
         });
+
+        // listener for child removed
+        const childRemovedListener = onChildRemoved(messagesListRef, (snapshot) => {
+          const newMessage = snapshot.val();
+
+          setMessageList((prevMessages) => prevMessages.filter((message) => message._id !== newMessage._id));
+        });
         
         // Clean up the listener when the component unmounts
         return () => {
           off(messagesListRef, 'child_added', childAddedListener);
+          off(messagesListRef, 'child_removed', childRemovedListener);
         };
+
     }
 
   }, []);
