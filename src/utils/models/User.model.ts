@@ -1,7 +1,7 @@
 // import the mongodb driver methods
 import { ObjectId, InsertOneResult, MongoClient, Db } from 'mongodb';
 import { connect } from '@/utils/mongoDbDriver';
-import { ConversationModel } from '@/utils/models/Conversation.model';
+// import { ConversationModel } from '@/utils/models/Conversation.model';
 
 // the user model definition ---------------------------------
 export interface UserModel {
@@ -81,18 +81,18 @@ export async function deleteUser(userId: string, client?: MongoClient, db?: Db):
   // delete the user
   await usersCollection.deleteOne({ _id: new ObjectId(userId) });
 
-  // delete the user from all conversations
-  const conversationsCollection = db.collection<ConversationModel>('conversations');
-  await conversationsCollection.updateMany(
-    { 'participants._id': new ObjectId(userId) },
-    { $pull: { participants: { _id: new ObjectId(userId) } } }
-  );
+  // // delete the user from all conversations
+  // const conversationsCollection = db.collection<ConversationModel>('conversations');
+  // await conversationsCollection.updateMany(
+  //   { 'participants._id': new ObjectId(userId) },
+  //   { $pull: { participants: { _id: new ObjectId(userId) } } }
+  // );
 
-  // set the admin of all conversations to the first participant
-  await conversationsCollection.updateMany(
-    { 'admin._id': new ObjectId(userId) },
-    { $set: { admin: null } }
-  );
+  // // set the admin of all conversations to the first participant
+  // await conversationsCollection.updateMany(
+  //   { 'admin._id': new ObjectId(userId) },
+  //   { $set: { admin: null } }
+  // );
 
 }
 

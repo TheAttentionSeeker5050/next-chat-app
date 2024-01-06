@@ -1,260 +1,260 @@
-// import required models
-import { UserModel } from '@/utils/models/User.model';
-import {MessageModel} from '@/utils/models/Message.model';
+// // import required models
+// import { UserModel } from '@/utils/models/User.model';
+// import {MessageModel} from '@/utils/models/Message.model';
 
-// import required mongodb library methods
-import { Db, InsertOneResult, MongoClient, ObjectId } from 'mongodb';
-import { connect } from '@/utils/mongoDbDriver';
+// // import required mongodb library methods
+// import { Db, InsertOneResult, MongoClient, ObjectId } from 'mongodb';
+// import { connect } from '@/utils/mongoDbDriver';
 
-// the conversation model definition ---------------------------------
-export interface ConversationModel {
-    _id: ObjectId,
-    conversationUniqueName?: string,
-    participants: UserModel[],
-    messages: MessageModel[],
-    admin: UserModel | null,
-}
-
-
-type CreateConversationResult = InsertOneResult<ConversationModel>;
+// // the conversation model definition ---------------------------------
+// export interface ConversationModel {
+//     _id: ObjectId,
+//     conversationUniqueName?: string,
+//     participants: UserModel[],
+//     messages: MessageModel[],
+//     admin: UserModel | null,
+// }
 
 
-// the conversation model crud operations ----------------------------
-export async function getConversationById(conversationId?: string, client?: MongoClient, db?: Db): Promise<ConversationModel | null> {
+// type CreateConversationResult = InsertOneResult<ConversationModel>;
 
-    if (!db) {
-        throw new Error('MongoDB Connection Error');
-    }
 
-    if (!client) {
-        throw new Error('MongoDB Connection Error');
-    }
+// // the conversation model crud operations ----------------------------
+// export async function getConversationById(conversationId?: string, client?: MongoClient, db?: Db): Promise<ConversationModel | null> {
 
-    const collection = db.collection<ConversationModel>('conversations');
+//     if (!db) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    // if no conversation id is provided, return the first conversation in the collection, this is used in the stage 1 of our application development, and will be removed in subsequent stages
-    if (!conversationId) {
-        return collection.findOne();
-    }
+//     if (!client) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    return collection.findOne({ _id: new ObjectId(conversationId) });
-}
+//     const collection = db.collection<ConversationModel>('conversations');
 
-export async function getAllConversationsForUser(userId: string, client?: MongoClient, db?: Db): Promise<ConversationModel[]> {
+//     // if no conversation id is provided, return the first conversation in the collection, this is used in the stage 1 of our application development, and will be removed in subsequent stages
+//     if (!conversationId) {
+//         return collection.findOne();
+//     }
+
+//     return collection.findOne({ _id: new ObjectId(conversationId) });
+// }
+
+// export async function getAllConversationsForUser(userId: string, client?: MongoClient, db?: Db): Promise<ConversationModel[]> {
     
-    if (!db) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!db) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    if (!client) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!client) {
+//         throw new Error('MongoDB Connection Error');
+//     }
     
-    const collection = db.collection<ConversationModel>('conversations');
+//     const collection = db.collection<ConversationModel>('conversations');
 
-    return collection.find({ 'participants._id': new ObjectId(userId) }).toArray();
-}
+//     return collection.find({ 'participants._id': new ObjectId(userId) }).toArray();
+// }
 
-export async function getConversationByUniqueName(conversationUniqueName: string, client?: MongoClient, db?: Db): Promise<ConversationModel | null> {
-    if (!db) {
-        throw new Error('MongoDB Connection Error');
-    }
+// export async function getConversationByUniqueName(conversationUniqueName: string, client?: MongoClient, db?: Db): Promise<ConversationModel | null> {
+//     if (!db) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    if (!client) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!client) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    const collection = db.collection<ConversationModel>('conversations');
+//     const collection = db.collection<ConversationModel>('conversations');
 
     
-    return collection.findOne({ conversationUniqueName });
-}
+//     return collection.findOne({ conversationUniqueName });
+// }
 
-export async function createConversation(conversationModel: ConversationModel, client?: MongoClient, db?: Db): Promise<ConversationModel> {
+// export async function createConversation(conversationModel: ConversationModel, client?: MongoClient, db?: Db): Promise<ConversationModel> {
     
-    if (!db) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!db) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    if (!client) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!client) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    const collection = db.collection<ConversationModel>('conversations');
+//     const collection = db.collection<ConversationModel>('conversations');
 
-    const result: CreateConversationResult = await collection.insertOne(conversationModel);
+//     const result: CreateConversationResult = await collection.insertOne(conversationModel);
 
-    const insertedId = result.insertedId;
+//     const insertedId = result.insertedId;
 
-    if (!insertedId) {
-        throw new Error('Conversation creation failed');
-    }
+//     if (!insertedId) {
+//         throw new Error('Conversation creation failed');
+//     }
 
-    const createdConversation = await collection.findOne({ _id: insertedId });
+//     const createdConversation = await collection.findOne({ _id: insertedId });
 
-    if (!createdConversation) {
-        throw new Error('Conversation not found after creation');
-    }
+//     if (!createdConversation) {
+//         throw new Error('Conversation not found after creation');
+//     }
 
-    return createdConversation;
-}
+//     return createdConversation;
+// }
 
-export async function deleteConversation(conversationId: string, client?: MongoClient, db?: Db): Promise<void> {
-    if (!db) {
-        throw new Error('MongoDB Connection Error');
-    }
+// export async function deleteConversation(conversationId: string, client?: MongoClient, db?: Db): Promise<void> {
+//     if (!db) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    if (!client) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!client) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    const collection = db.collection('conversations');
+//     const collection = db.collection('conversations');
   
-    await collection.deleteOne({ _id: new ObjectId(conversationId) });
-}
+//     await collection.deleteOne({ _id: new ObjectId(conversationId) });
+// }
 
 
-// the crud operations for the messages in a conversation ------------
-export async function addMessageToConversation(conversationId: string, message: MessageModel, client?: MongoClient, db?: Db): Promise<void> {
-    if (!db) {
-        throw new Error('MongoDB Connection Error');
-    }
+// // the crud operations for the messages in a conversation ------------
+// export async function addMessageToConversation(conversationId: string, message: MessageModel, client?: MongoClient, db?: Db): Promise<void> {
+//     if (!db) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    if (!client) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!client) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    const collection = db.collection('conversations');
+//     const collection = db.collection('conversations');
   
-    await collection.updateOne(
-        { _id: new ObjectId(conversationId) },
-        { $push: { messages: message } }
-    );
-}
+//     await collection.updateOne(
+//         { _id: new ObjectId(conversationId) },
+//         { $push: { messages: message } }
+//     );
+// }
   
-export async function deleteMessageInConversation(conversationId: string, messageId: string, client?: MongoClient, db?: Db): Promise<void> {
-    if (!db) {
-        throw new Error('MongoDB Connection Error');
-    }
+// export async function deleteMessageInConversation(conversationId: string, messageId: string, client?: MongoClient, db?: Db): Promise<void> {
+//     if (!db) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    if (!client) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!client) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    const collection = db.collection('conversations');
+//     const collection = db.collection('conversations');
   
-    await collection.updateOne(
-        { _id: new ObjectId(conversationId) },
-        { $pull: { messages: { _id: new ObjectId(messageId) } } }
-    );
-}
+//     await collection.updateOne(
+//         { _id: new ObjectId(conversationId) },
+//         { $pull: { messages: { _id: new ObjectId(messageId) } } }
+//     );
+// }
 
 
-// crud operations for the participants (or users) in a conversation ------------
-export async function addUserToConversation(conversationId: string, userId: string, client?: MongoClient, db?: Db): Promise<void> {
-    if (!db) {
-        throw new Error('MongoDB Connection Error');
-    }
+// // crud operations for the participants (or users) in a conversation ------------
+// export async function addUserToConversation(conversationId: string, userId: string, client?: MongoClient, db?: Db): Promise<void> {
+//     if (!db) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    if (!client) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!client) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    const collection = db.collection('conversations');
+//     const collection = db.collection('conversations');
 
-    // get the conversation and check if the user is a participant
-    const conversation = await collection.findOne({ _id: new ObjectId(conversationId) });
+//     // get the conversation and check if the user is a participant
+//     const conversation = await collection.findOne({ _id: new ObjectId(conversationId) });
 
-    if (!conversation) {
-        throw new Error('Conversation not found');
-    }
+//     if (!conversation) {
+//         throw new Error('Conversation not found');
+//     }
 
-    const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+//     const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
 
-    const userIsParticipant = conversation.participants.some((participant: UserModel) => participant._id.toString() === userId);
+//     const userIsParticipant = conversation.participants.some((participant: UserModel) => participant._id.toString() === userId);
 
-    if (!userIsParticipant) {
+//     if (!userIsParticipant) {
 
-        // get all the participants in the conversation
-        let participants = conversation.participants;
+//         // get all the participants in the conversation
+//         let participants = conversation.participants;
 
-        // append the user to the participants array
-        participants.push(user);
+//         // append the user to the participants array
+//         participants.push(user);
 
-        // update the conversation with the new participants array
-        await collection.updateOne(
-            { _id: new ObjectId(conversationId) },
-            { $set: { participants: participants } }
-        );
-    }
+//         // update the conversation with the new participants array
+//         await collection.updateOne(
+//             { _id: new ObjectId(conversationId) },
+//             { $set: { participants: participants } }
+//         );
+//     }
 
-}
+// }
 
-export async function deleteUserInConversation(conversationId: string, userId: string, client?: MongoClient, db?: Db): Promise<void> {
-    if (!db) {
-        throw new Error('MongoDB Connection Error');
-    }
+// export async function deleteUserInConversation(conversationId: string, userId: string, client?: MongoClient, db?: Db): Promise<void> {
+//     if (!db) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    if (!client) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!client) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    const collection = db.collection('conversations');
+//     const collection = db.collection('conversations');
   
-    await collection.updateOne(
-        { _id: new ObjectId(conversationId) },
-        { $pull: { participants: { _id: new ObjectId(userId) } } } // remove all instances of the user as a participant
-    );
+//     await collection.updateOne(
+//         { _id: new ObjectId(conversationId) },
+//         { $pull: { participants: { _id: new ObjectId(userId) } } } // remove all instances of the user as a participant
+//     );
   
-    // we need to remove it as an admin as well if it is an admin
-    await collection.updateOne(
-        { _id: new ObjectId(conversationId), admin: { _id: new ObjectId(userId) } },
-        { $unset: { admin: null } } // remove the admin if the user is the admin, otherwise do nothing
-    );
+//     // we need to remove it as an admin as well if it is an admin
+//     await collection.updateOne(
+//         { _id: new ObjectId(conversationId), admin: { _id: new ObjectId(userId) } },
+//         { $unset: { admin: null } } // remove the admin if the user is the admin, otherwise do nothing
+//     );
   
-    await collection.updateOne(
-        { _id: new ObjectId(conversationId) },
-        { $pull: { messages: { 'sender._id': new ObjectId(userId) } } } // remove all instances of messages sent by the user
-    );
-}
+//     await collection.updateOne(
+//         { _id: new ObjectId(conversationId) },
+//         { $pull: { messages: { 'sender._id': new ObjectId(userId) } } } // remove all instances of messages sent by the user
+//     );
+// }
 
-export async function makeUserAdminInConversation(conversationId: string, userId: string, client?: MongoClient, db?: Db): Promise<void> {
-    if (!db) {
-        throw new Error('MongoDB Connection Error');
-    }
+// export async function makeUserAdminInConversation(conversationId: string, userId: string, client?: MongoClient, db?: Db): Promise<void> {
+//     if (!db) {
+//         throw new Error('MongoDB Connection Error');
+//     }
 
-    if (!client) {
-        throw new Error('MongoDB Connection Error');
-    }
+//     if (!client) {
+//         throw new Error('MongoDB Connection Error');
+//     }
     
-    const collection = db.collection('conversations');
+//     const collection = db.collection('conversations');
   
-    // make sure the user is a participant in the conversation
-    // get the conversation and check if the user is a participant
-    const conversation = await collection.findOne({ _id: new ObjectId(conversationId) });
+//     // make sure the user is a participant in the conversation
+//     // get the conversation and check if the user is a participant
+//     const conversation = await collection.findOne({ _id: new ObjectId(conversationId) });
 
-    if (!conversation) {
-        throw new Error('Conversation not found');
-    }
+//     if (!conversation) {
+//         throw new Error('Conversation not found');
+//     }
 
-    // find user by id
-    const user = await db.collection('users').findOne({ _id: new ObjectId(userId) }) as UserModel;
+//     // find user by id
+//     const user = await db.collection('users').findOne({ _id: new ObjectId(userId) }) as UserModel;
 
-    if (conversation.participants.some((participant: UserModel) => participant._id.toString() !== userId)) {
+//     if (conversation.participants.some((participant: UserModel) => participant._id.toString() !== userId)) {
 
-        // make the user the admin
-        const result = await collection.updateOne(
-            { _id: new ObjectId(conversationId) },
-            { $set: { admin: user } }
-        );
+//         // make the user the admin
+//         const result = await collection.updateOne(
+//             { _id: new ObjectId(conversationId) },
+//             { $set: { admin: user } }
+//         );
 
-        if (!result.matchedCount) {
-            throw new Error('Conversation not found');
-        }
+//         if (!result.matchedCount) {
+//             throw new Error('Conversation not found');
+//         }
     
-        if (!result.modifiedCount) {
-            throw new Error('User is already the admin');
-        }
-    }
+//         if (!result.modifiedCount) {
+//             throw new Error('User is already the admin');
+//         }
+//     }
 
-}
+// }

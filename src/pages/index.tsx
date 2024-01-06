@@ -1,34 +1,39 @@
-// imports related to next.js custom media
+// imports related to next.js custom media (fonts, images, css, etc)
 import { Inter } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'] });
 
-// useAppContext is a custom hook that returns the context
+// import context
 import {useAppContext} from '@/context/MyContext';
 
 // import navigation hook
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useState } from 'react';
+
+// import components 
 import CurrentUserMessageBubble from '@/components/CurrentUserMessageBubble';
 import OtherUserMessageBubble from '@/components/OtherUserMessageBubble';
-
-// import document hook components
-import Head from 'next/head';
 import NewMessageComponent from '@/components/NewMessageComponent';
 import DarkThemeToggleSwitch from '@/components/DarkThemeToggleSwitch';
+
+// nextjs and react libraries
+import Head from 'next/head';
+import { FormEvent, useEffect, useState } from 'react';
 
 
 // import validation function and error type
 import { validateText } from '@/utils/validators/validateText';
 import { ZodError } from 'zod';
+
+// import models
 import { MessageModelFirebase } from '@/utils/models/Message.model';
 import { GetServerSideProps } from 'next';
 
-// firebase imports
+// firebase and storage imports
 import { Database, connectDatabaseEmulator, getDatabase, off, onChildAdded, onChildChanged, onChildRemoved, onValue, ref } from "firebase/database";
 import firebase from '@/firebase';
 import { getFromLocalStorage } from '@/context/localStorageHandlers';
 
+// implement the custom font
+const inter = Inter({ subsets: ['latin'] });
 
 
 export default function Home({ messages}: {messages: MessageModelFirebase[]}) {

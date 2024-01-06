@@ -1,24 +1,22 @@
+// import css and fonts
 import { Inter } from 'next/font/google';
-import { FormEvent, useState } from 'react'; // Add the import statement for Dispatch and SetStateAction
 
-const inter = Inter({ subsets: ['latin'] });
+// import app context
+import { useAppContext } from '@/context/MyContext';
 
-// useAppContext is a custom hook that returns the context
-import {useAppContext} from '@/context/MyContext';
-import SetDummyUsernameForm from '@/components/SetDummyUsernameForm';
+// react and next imports
+import { useState } from 'react'; // Add the import statement for Dispatch and SetStateAction
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-// validate author function
-import { validateAuthorName } from '@/utils/validators/validateAuthorName';
 
-// zod error type 
-import { ZodError } from 'zod';
-import { saveToLocalStorage } from '@/context/localStorageHandlers';
+// import custom components
+import SetDummyUsernameForm from '@/components/SetDummyUsernameForm';
 import LoginWithCredentialsForm from '@/components/LoginWithCredentialsForm';
 import LoginWithOauthForm from '@/components/LoginWithOauthForm';
 
 
+const inter = Inter({ subsets: ['latin'] });
 
 
 export default function Login() {

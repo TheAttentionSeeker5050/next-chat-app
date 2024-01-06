@@ -1,4 +1,3 @@
-import { FormEventHandler } from "react";
 
 interface LoginWithCredentialsFormProps {
     // submitHandler: FormEventHandler<HTMLFormElement>;

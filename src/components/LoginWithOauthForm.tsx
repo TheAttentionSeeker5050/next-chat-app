@@ -4,7 +4,7 @@ import { faApple, faFacebook, faGithub, faGoogle, faMicrosoft, faTwitter } from 
 const LoginWithOauthForm = () => {
     return (
         <form className='flex flex-col gap-4 dark:text-fore-secondary-dark' >
-            <h2 className='text-xl font-semibold text-center text-blue-balloons-secondary-light'>Oauth Login</h2>
+            <h2 className='text-xl font-semibold text-center text-blue-balloons-secondary-light'>Oauth Login (To Be Implemented)</h2>
             <p className="text-center">Choose your login provider:</p>
 
             <div id="oauth-providers-wrapper" className="flex flex-row flex-wrap justify-center gap-3 text-dark-blue-fore-light">
