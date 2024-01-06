@@ -16,6 +16,7 @@ import { validateAuthorName } from '@/utils/validators/validateAuthorName';
 import { ZodError } from 'zod';
 import { saveToLocalStorage } from '@/context/localStorageHandlers';
 import LoginWithCredentialsForm from '@/components/LoginWithCredentialsForm';
+import LoginWithOauthForm from '@/components/LoginWithOauthForm';
 
 
 
@@ -30,60 +31,6 @@ export default function SetAuthor() {
 
   // use the navigate hook to redirect to set-author page once author is set
   let router = useRouter();
-  
-  // do some onSubmit function to set the author, use form handler as event param
-  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-
-      const formData = new FormData(e.currentTarget);
-      const newAuthor = formData.get('author') as string;
-
-      const validateResult = validateAuthorName(newAuthor) as { success: boolean; error?: ZodError<string>; data?: any };
-
-      // use the validate author function to check if author is valid
-      if (!validateResult.success) {
-        setError(validateResult.error?.issues[0].message || 'Invalid author name');
-        return;
-      }
-
-      // make a call to the server to set the author
-      const res = await fetch('/api/auth/set-dummy-user', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          // only the username is needed
-          username: newAuthor,
-        }),
-      });
-
-
-      // check if response is ok
-      if (!res.ok) {
-        setError('Oops! Something went wrong while setting the author');
-        return;
-      }
-
-      // if response json contains user
-      const user = await res.json() as { _id: string; username: string; };
-
-      if (!user) {
-        setError('Could not set the author');
-        return;
-      }
-
-      // set app context author
-      setAuthor(user.username);
-      setAuthorId(user._id);
-
-      // use the localstorage to set the author using our methods inside context dir
-      saveToLocalStorage('author', user.username);
-      saveToLocalStorage('authorId', user._id);
-
-      // use the navigate hook to redirect to set-author page
-      await router.push('/', undefined, { shallow: true });
-  }
 
   return (
     <>
@@ -92,15 +39,19 @@ export default function SetAuthor() {
         <meta name="description" content="Set Author" />
       </Head>
       <main
-        className={`${inter.className} flex flex-col gap-8 px-3 my-10 mx-auto w-full mobile:w-96 tablet:w-1/3 `}
+        className={`${inter.className} flex flex-col gap-6 px-3 my-6 mx-auto w-full mobile:w-96 tablet:w-1/3 `}
         >
-        <h1 className='text-3xl text-center font-bold mb-6'>User Authorization</h1>
+        <h1 className='text-2xl text-center font-bold mb-6'>User Authorization</h1>
         {error && <p className="text-red-500">{error}</p>}
-        <SetDummyUsernameForm author={author} setAuthor={setAuthor} submitHandler={submitHandler}/> 
+        <SetDummyUsernameForm setAuthor={setAuthor} setError={setError} setAuthorId={setAuthorId} router={router} />
 
         <span className='text-xl font-semibold text-center'>Or</span>
 
         <LoginWithCredentialsForm setErrorMessage={setError} />
+
+        <span className='text-xl font-semibold text-center'>Or</span>
+
+        <LoginWithOauthForm/>
 
         
       </main>
