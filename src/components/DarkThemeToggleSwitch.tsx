@@ -14,7 +14,7 @@ export default function DarkThemeToggleSwitch() {
     }
     return (
         <div className='flex flex-row gap-3'>
-            <span > Dark Mode Enabled:</span>
+            <span className='dark:text-fore-secondary-dark'> Dark Mode Enabled:</span>
             <Switch color="blue" defaultChecked crossOrigin={undefined} onChange={handleToggleNightMode}/>
         </div>
     );

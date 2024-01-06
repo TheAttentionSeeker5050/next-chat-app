@@ -12,8 +12,8 @@ interface Props {
 export default function OtherUserMessageBubble({ message, author, authorId, date }: Props) {
 
     return (
-        <div className="w-52 mobile:w-80 tablet:w-96 max-w-max relative mx-auto tablet:ml-8 bg-gray-balloons-light rounded-lg shadow-lg py-2 px-3 mb-10">
-            <p className="font-semibold text-blue-balloons-light mb-1">{author}:</p>
+        <div className="w-52 mobile:w-80 tablet:w-96 max-w-max relative mx-auto tablet:ml-8 bg-gray-balloons-light dark:bg-gray-balloons-dark rounded-lg shadow-lg py-2 px-3 mb-10">
+            <p className="font-semibold text-blue-balloons-light dark:text-blue-balloons-dark mb-1">{author}:</p>
             <p className="text-fore-tertiary-light mb-2">{message}</p>
             <span className="text-xs uppercase text-fore-tertiary-light">{formatDate(date)}</span>
         </div>

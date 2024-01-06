@@ -41,11 +41,11 @@ export default function NewMessageComponent({error, handleAddNewMessage, message
 
     return (
         // create a new message component, where the message bubble contain a send button inside to make it look like part of the message input
-        <form className="fixed bottom-0 flex flex-col w-screen bg-back-secondary-light px-6 py-2" onSubmit={handleAddNewMessage}>
+        <form className="fixed bottom-0 flex flex-col w-screen bg-back-secondary-light dark:bg-back-tertiary-dark px-6 py-2" onSubmit={handleAddNewMessage}>
             {/* if there is an error, display the error message */}
             {error && <p className="text-red-500 mb-2">{error}</p>}
 
-            <div className="flex flex-row w-full border rounded-md p-2 bg-white shadow-sm ring ring-gray-balloons-light focus-within:ring focus-within:ring-fore-tertiary-light">
+            <div className="flex flex-row w-full border rounded-md p-2 bg-white shadow-sm ring ring-gray-balloons-light dark:ring-input-box-border-dark focus-within:ring focus-within:ring-fore-tertiary-light dark:focus-within:ring-input-box-border-dark ">
                 {/* make the input to expand up to 6 lines */}
                 <textarea
                 value={message}
@@ -58,7 +58,7 @@ export default function NewMessageComponent({error, handleAddNewMessage, message
                 maxLength={600}
                 />
 
-                <button type="submit" id="new-msg-form-submit" className="bg-blue-balloons-light hover:bg-blue-balloons-light-hover text-white rounded-md shadow-sm py-1 px-3 mt-auto">
+                <button type="submit" id="new-msg-form-submit" className="bg-blue-balloons-light dark:bg-blue-balloons-dark hover:bg-blue-balloons-light-hover text-white rounded-md shadow-sm py-1 px-3 mt-auto">
                     <FontAwesomeIcon icon={faPlay} />
                 </button>
             </div>
