@@ -21,7 +21,7 @@ import LoginWithOauthForm from '@/components/LoginWithOauthForm';
 
 
 
-export default function SetAuthor() {
+export default function Login() {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
   const { author, authorId, nightMode, setAuthor, setAuthorId } = useAppContext();

@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 
 // import the pages to test
 import Home from "@/pages/index";
+import Login from "@/pages/login";
 import Custom404 from "@/pages/404";
 import Custom500 from "@/pages/500";
 import { afterAll } from "@jest/globals";
@@ -112,31 +113,26 @@ describe("test-render-error-page-500", () => {
     });
 });
 
-// ------------------------------
-// I am leaving this commented out because this will be implemented in the future using a different approach
-// some prospects are cypress, puppeteer, or selenium, or maybe I can use Jenkins to test the app in a mock running service
+// the login screen
+describe("test-render-login-page", () => {
+    it("should render login page without throwing an error", async () => {
 
-// // test render the 404 page using request to a gibberish non existent route within our app page
-// describe("test-get-404-page", () => {
-//     it("should render 404 page", async () => {
-//         // make get request to server at /fkjdfkdfj
-//         // use fetch to make request to server
-//         const res = await fetch("http://localhost:3000/fkjdfkdfj");
-//         // expect to get 404 status code
-//         expect(res.status).toBe(404);
+        // mock the useRouter hook 
+        useRouter.mockReturnValue({
+            push: jest.fn(),
+        });
 
-//         // get the component from the 404 render page called Custom404 within pages/404.tsx
-//         // render the app
-//         render(
-//             <AppContextProvider>
-//                 <Custom404 />    
-//             </AppContextProvider>
-//         );
+        // render the app
+        const {container, unmount} = render(
+            <AppContextProvider>
+                <Login />    
+            </AppContextProvider>
+        );
+        
+        // expect to get main tag content, no matter what contains
+        // use id error-page-wrapper to get the content
+        expect(screen.getByRole("main")).toBeInTheDocument();
 
-//         // expect to get the wrapper id called error-404-wrapper
-//         expect(screen.getByTestId("error-404-wrapper")).toBeInTheDocument();
-
-
-//     });
-// });
-
+        unmount();
+    });
+});
