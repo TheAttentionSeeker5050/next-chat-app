@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 interface LoginWithCredentialsFormProps {
     // submitHandler: FormEventHandler<HTMLFormElement>;
@@ -18,6 +19,8 @@ const LoginWithCredentialsForm: React.FC<LoginWithCredentialsFormProps> = ({ set
 
             <input type="text" name="username" id="username" placeholder="Enter username" className="border-2 pl-3 pr-2 border-fore-secondary-light py-1 rounded-lg" max={30} />
             <input type="password" name="password" id="password" placeholder="Enter password" className="border-2 pl-3 pr-2 border-fore-secondary-light py-1 rounded-lg" max={30} />
+
+            <p>Not registered yet? <Link href={"#"} className="text-blue-balloons-secondary-light">Register Now</Link></p>
 
             <button type="submit" className="text-fore-blue-balloons-light bg-blue-balloons-light rounded-xl px-2 py-1 hover:bg-blue-balloons-light-hover">Login with Credentials</button>
 

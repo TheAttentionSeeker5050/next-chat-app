@@ -31,6 +31,7 @@ import { GetServerSideProps } from 'next';
 import { Database, connectDatabaseEmulator, getDatabase, off, onChildAdded, onChildChanged, onChildRemoved, onValue, ref } from "firebase/database";
 import firebase from '@/firebase';
 import { getFromLocalStorage } from '@/context/localStorageHandlers';
+import HeaderComponent from '@/components/HeaderComponent';
 
 // implement the custom font
 const inter = Inter({ subsets: ['latin'] });
@@ -194,16 +195,14 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
   }
 
   return (
-    <div className={`${inter.className} ${nightMode === true ? 'dark' : ''} `}>
+    <div className={`${inter.className} ${nightMode === true ? 'dark' : ''} w-screen `}>
       <Head>
         <title>Next.js Chat App - Group Conversation</title>
         <meta name="description" content="Group Conversation" />
       </Head>
-      <main className={`flex flex-col gap-6 dark:bg-back-secondary-dark bg-back-light min-h-screen`}>
-        <nav className="bg-back-secondary-light dark:bg-back-dark pt-8 pb-10 mb-4 flex flex-col gap-4 items-center">
-          <h1 className='text-3xl font-semibold dark:text-fore-titles-dark'>Group Conversation</h1>
-          <DarkThemeToggleSwitch />
-        </nav>
+      <main className={`flex flex-col gap-6 min-h-screen`}>
+        
+        <HeaderComponent title='Group Conversation'/>
 
         <section id="message-list-container" className="flex flex-col gap-6 w-full px-6 mb-20 dark:bg-back-secondary-dark">
           

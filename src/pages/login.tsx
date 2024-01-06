@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import SetDummyUsernameForm from '@/components/SetDummyUsernameForm';
 import LoginWithCredentialsForm from '@/components/LoginWithCredentialsForm';
 import LoginWithOauthForm from '@/components/LoginWithOauthForm';
+import HeaderComponent from '@/components/HeaderComponent';
 
 
 const inter = Inter({ subsets: ['latin'] });
@@ -31,7 +32,8 @@ export default function Login() {
   let router = useRouter();
 
   return (
-    <>
+    <div className={`${inter.className} ${nightMode === true ? 'dark' : ''} dark:bg-back-secondary-dark bg-back-light`}>
+
       <Head>
         <title>Next.js Chat App - Set Author</title>
         <meta name="description" content="Set Author" />
@@ -39,7 +41,8 @@ export default function Login() {
       <main
         className={`${inter.className} flex flex-col gap-6 px-3 my-6 mx-auto w-full mobile:w-96 tablet:w-1/3 `}
         >
-        <h1 className='text-2xl text-center font-bold mb-6 text-blue-balloons-light'>User Authorization</h1>
+        {/* <h1 className='text-2xl text-center font-bold mb-6 text-blue-balloons-light'>User Authorization</h1> */}
+        <HeaderComponent title='User Authorization' transparentBackground={true} />
         {error && <p className="text-red-500">{error}</p>}
         <SetDummyUsernameForm setAuthor={setAuthor} setError={setError} setAuthorId={setAuthorId} router={router} />
 
@@ -50,9 +53,8 @@ export default function Login() {
         <span className='text-xl font-semibold text-center text-fore-tertiary-light'>Or</span>
 
         <LoginWithOauthForm/>
-
         
       </main>
-    </>
+    </div>
   );
 };
