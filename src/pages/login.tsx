@@ -5,7 +5,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 // useAppContext is a custom hook that returns the context
 import {useAppContext} from '@/context/MyContext';
-import SetAuthorForm from '@/components/SetAuthorForm';
+import SetDummyUsernameForm from '@/components/SetDummyUsernameForm';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -15,6 +15,7 @@ import { validateAuthorName } from '@/utils/validators/validateAuthorName';
 // zod error type 
 import { ZodError } from 'zod';
 import { saveToLocalStorage } from '@/context/localStorageHandlers';
+import LoginWithCredentialsForm from '@/components/LoginWithCredentialsForm';
 
 
 
@@ -46,7 +47,7 @@ export default function SetAuthor() {
       }
 
       // make a call to the server to set the author
-      const res = await fetch('/api/set-author', {
+      const res = await fetch('/api/auth/set-dummy-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,12 +92,17 @@ export default function SetAuthor() {
         <meta name="description" content="Set Author" />
       </Head>
       <main
-        className={`${inter.className} flex flex-col justify-center gap-8 items-center mt-10`}
+        className={`${inter.className} flex flex-col gap-8 px-3 my-10 mx-auto w-full mobile:w-96 tablet:w-1/3 `}
         >
-        <h1 className='text-2xl'>Set Author Name</h1>
-        <SetAuthorForm author={author} setAuthor={setAuthor} submitHandler={submitHandler}/> 
-
+        <h1 className='text-3xl text-center font-bold mb-6'>User Authorization</h1>
         {error && <p className="text-red-500">{error}</p>}
+        <SetDummyUsernameForm author={author} setAuthor={setAuthor} submitHandler={submitHandler}/> 
+
+        <span className='text-xl font-semibold text-center'>Or</span>
+
+        <LoginWithCredentialsForm setErrorMessage={setError} />
+
+        
       </main>
     </>
   );

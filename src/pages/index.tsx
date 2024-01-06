@@ -61,7 +61,7 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
         setAuthorId(authorIdFromLocalStorage);
       } else {
         // use the navigate hook to redirect to set-author page if author is empty
-        router.push('/set-author', undefined, { shallow: true });
+        router.push('/login', undefined, { shallow: true });
       }
     }
 
