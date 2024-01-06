@@ -27,13 +27,14 @@ import { GetServerSideProps } from 'next';
 // firebase imports
 import { Database, connectDatabaseEmulator, getDatabase, off, onChildAdded, onChildChanged, onChildRemoved, onValue, ref } from "firebase/database";
 import firebase from '@/firebase';
+import { getFromLocalStorage } from '@/context/localStorageHandlers';
 
 
 
 export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
 
   // get the context, for the moment, nightMode is a boolean, author is a string, and socketid is an empty string by default
-  const { author, setAuthor, authorId, nightMode, setAuthorId } = useAppContext();
+  const { author, setAuthor, authorId, nightMode, setAuthorId, setNightMode } = useAppContext();
 
   // state variables
   const [error, setError] = useState<string | null>(null);
@@ -64,7 +65,15 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
       }
     }
 
-  }, [author, authorId, router, setAuthor, setAuthorId]);
+    // if night mode is in local storage, set the night mode to the value in local storage
+    // using context localstorage function 
+    const localNightMode = getFromLocalStorage('nightMode');
+
+    if (localNightMode) {
+      setNightMode(localNightMode === 'true' ? true : false);
+    }
+
+  }, [author, authorId, router, setAuthor, setAuthorId, nightMode, setNightMode]);
 
   useEffect(() => {
     const conversationId = 'default';
@@ -180,18 +189,18 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
   }
 
   return (
-    <>
+    <div className={`${inter.className} ${nightMode === true ? 'dark' : ''} `}>
       <Head>
         <title>Next.js Chat App - Group Conversation</title>
         <meta name="description" content="Group Conversation" />
       </Head>
-      <main className={`${inter.className} ${nightMode === true ? 'dark' : ''}  flex flex-col gap-6`}>
-        <nav className="bg-back-secondary-light pt-8 pb-10 mb-4 flex flex-col gap-4 items-center">
-          <h1 className='text-3xl font-semibold dark:text-red-500'>Group Conversation</h1>
+      <main className={`flex flex-col gap-6 dark:bg-back-secondary-dark bg-back-light min-h-screen`}>
+        <nav className="bg-back-secondary-light dark:bg-back-dark pt-8 pb-10 mb-4 flex flex-col gap-4 items-center">
+          <h1 className='text-3xl font-semibold '>Group Conversation</h1>
           <DarkThemeToggleSwitch />
         </nav>
 
-        <section id="message-list-container" className="flex flex-col gap-6 w-full px-6 mb-20">
+        <section id="message-list-container" className="flex flex-col gap-6 w-full px-6 mb-20 dark:bg-back-secondary-dark">
           
           {/* map all the messages, take the code above as example, but only if there are messages to display */}
           { messageList &&
@@ -220,7 +229,7 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
 
         <NewMessageComponent error={error} handleAddNewMessage={handleAddNewMessage} message={message} handleChange={handleChange} />
       </main>
-    </>
+    </div>
   );
 };
 
