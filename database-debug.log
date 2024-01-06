@@ -41,3 +41,5 @@ the firebase.json emulators config.
 23:13:26.160 [NamespaceSystem-akka.actor.default-dispatcher-51] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
 23:14:07.972 [NamespaceSystem-akka.actor.default-dispatcher-24] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
 23:17:14.520 [NamespaceSystem-akka.actor.default-dispatcher-27] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
+23:32:56.803 [NamespaceSystem-blocking-namespace-operation-dispatcher-70] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+23:32:56.868 [NamespaceSystem-blocking-namespace-operation-dispatcher-70] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
