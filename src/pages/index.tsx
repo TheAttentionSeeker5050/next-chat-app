@@ -196,7 +196,7 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
       </Head>
       <main className={`flex flex-col gap-6 dark:bg-back-secondary-dark bg-back-light min-h-screen`}>
         <nav className="bg-back-secondary-light dark:bg-back-dark pt-8 pb-10 mb-4 flex flex-col gap-4 items-center">
-          <h1 className='text-3xl font-semibold '>Group Conversation</h1>
+          <h1 className='text-3xl font-semibold dark:text-fore-titles-dark'>Group Conversation</h1>
           <DarkThemeToggleSwitch />
         </nav>
 

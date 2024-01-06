@@ -39,3 +39,5 @@ the firebase.json emulators config.
 23:13:15.242 [NamespaceSystem-akka.actor.default-dispatcher-27] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
 23:13:19.027 [NamespaceSystem-akka.actor.default-dispatcher-27] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
 23:13:26.160 [NamespaceSystem-akka.actor.default-dispatcher-51] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
+23:14:07.972 [NamespaceSystem-akka.actor.default-dispatcher-24] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
+23:17:14.520 [NamespaceSystem-akka.actor.default-dispatcher-27] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
