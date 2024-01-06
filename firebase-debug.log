@@ -88,3 +88,11 @@ the firebase.json emulators config.
  {"metadata":{"emulator":{"name":"database"},"message":"00:01:33.387 [NamespaceSystem-akka.actor.default-dispatcher-7] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.\n"}}
 [debug] [2024-01-06T04:01:50.336Z] 00:01:50.336 [NamespaceSystem-akka.actor.default-dispatcher-11] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
  {"metadata":{"emulator":{"name":"database"},"message":"00:01:50.336 [NamespaceSystem-akka.actor.default-dispatcher-11] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.\n"}}
+[debug] [2024-01-06T04:15:16.314Z] 00:15:16.313 [NamespaceSystem-akka.actor.default-dispatcher-20] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
+ {"metadata":{"emulator":{"name":"database"},"message":"00:15:16.313 [NamespaceSystem-akka.actor.default-dispatcher-20] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.\n"}}
+[debug] [2024-01-06T04:17:04.044Z] 00:17:04.043 [NamespaceSystem-akka.actor.default-dispatcher-17] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
+ {"metadata":{"emulator":{"name":"database"},"message":"00:17:04.043 [NamespaceSystem-akka.actor.default-dispatcher-17] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.\n"}}
+[debug] [2024-01-06T04:17:06.459Z] 00:17:06.459 [NamespaceSystem-akka.actor.default-dispatcher-28] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
+ {"metadata":{"emulator":{"name":"database"},"message":"00:17:06.459 [NamespaceSystem-akka.actor.default-dispatcher-28] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.\n"}}
+[debug] [2024-01-06T04:23:33.593Z] 00:23:33.593 [NamespaceSystem-akka.actor.default-dispatcher-31] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
+ {"metadata":{"emulator":{"name":"database"},"message":"00:23:33.593 [NamespaceSystem-akka.actor.default-dispatcher-31] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.\n"}}

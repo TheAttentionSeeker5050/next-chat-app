@@ -1,3 +1,4 @@
+import firebaseApp from '@/firebase';
 import firebase from '@/firebase';
 import { MessageContentType } from '@/utils/models/Message.model';
 import { Database, DatabaseReference, connectDatabaseEmulator, getDatabase, off, push, ref, set } from 'firebase/database';
@@ -56,7 +57,7 @@ export const addNewMessageToDatabase = (message: string, author: string, authorI
     }
 
     if (database === undefined || database === null) {
-        database = getDatabase();
+        database = getDatabase(firebaseApp);
     }
 
     const messageListRef =ref(database, 'conversations/' + conversationId + '/messages/');
