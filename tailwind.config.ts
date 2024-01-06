@@ -31,8 +31,10 @@ const config = withMT({
         'fore-tertiary-light': '#374151',
         'fore-blue-balloons-light': '#FFFFFF',
         'fore-gray-balloons-light': '#000000',
-        'blue-balloons-light': '#2F80ED',
+        'blue-balloons-light': '#1a67cc',
+        'blue-balloons-secondary-light': '#1f68c7',
         'blue-balloons-light-hover': '#2D9CDB',
+        'dark-blue-fore-light': '#324169',
         'gray-balloons-light': '#E0E0E0',
         'gray-balloons-light-hover': '#BDBDBD',
         // dark mode

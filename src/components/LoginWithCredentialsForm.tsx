@@ -13,7 +13,7 @@ const LoginWithCredentialsForm: React.FC<LoginWithCredentialsFormProps> = ({ set
 
     return (
         <form onSubmit={submitHandler} className="flex flex-col gap-4 dark:text-fore-secondary-dark ">
-            <h2 className='text-xl font-semibold text-center'>Login with Credentials</h2>
+            <h2 className='text-xl font-semibold text-center text-blue-balloons-secondary-light'>Login with Credentials</h2>
 
             <p className="text-center">Enter your username and password to login</p>
 

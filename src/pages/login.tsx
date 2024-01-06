@@ -41,15 +41,15 @@ export default function SetAuthor() {
       <main
         className={`${inter.className} flex flex-col gap-6 px-3 my-6 mx-auto w-full mobile:w-96 tablet:w-1/3 `}
         >
-        <h1 className='text-2xl text-center font-bold mb-6'>User Authorization</h1>
+        <h1 className='text-2xl text-center font-bold mb-6 text-blue-balloons-light'>User Authorization</h1>
         {error && <p className="text-red-500">{error}</p>}
         <SetDummyUsernameForm setAuthor={setAuthor} setError={setError} setAuthorId={setAuthorId} router={router} />
 
-        <span className='text-xl font-semibold text-center'>Or</span>
+        <span className='text-xl font-semibold text-center text-fore-tertiary-light'>Or</span>
 
         <LoginWithCredentialsForm setErrorMessage={setError} />
 
-        <span className='text-xl font-semibold text-center'>Or</span>
+        <span className='text-xl font-semibold text-center text-fore-tertiary-light'>Or</span>
 
         <LoginWithOauthForm/>
 
