@@ -12,15 +12,15 @@ const LoginWithCredentialsForm: React.FC<LoginWithCredentialsFormProps> = ({ set
     }
 
     return (
-        <form onSubmit={submitHandler} className="flex flex-col gap-4 dark:text-fore-secondary-dark ">
-            <h2 className='text-xl font-semibold text-center text-blue-balloons-secondary-light'>Login with Credentials</h2>
+        <form onSubmit={submitHandler} className="flex flex-col gap-4 dark:text-white">
+            <h2 className='text-xl font-semibold text-center text-blue-balloons-secondary-light dark:text-fore-secondary-dark'>Login with Credentials</h2>
 
             <p className="text-center">Enter your username and password to login</p>
 
-            <input type="text" name="username" id="username" placeholder="Enter username" className="border-2 pl-3 pr-2 border-fore-secondary-light py-1 rounded-lg" max={30} />
-            <input type="password" name="password" id="password" placeholder="Enter password" className="border-2 pl-3 pr-2 border-fore-secondary-light py-1 rounded-lg" max={30} />
+            <input type="text" name="username" id="username" placeholder="Enter username" className="border-2 pl-3 pr-2 border-fore-secondary-light py-1 rounded-lg text-input-box-back-dark" max={30} />
+            <input type="password" name="password" id="password" placeholder="Enter password" className="border-2 pl-3 pr-2 border-fore-secondary-light py-1 rounded-lg text-input-box-back-dark" max={30} />
 
-            <p>Not registered yet? <Link href={"#"} className="text-blue-balloons-secondary-light">Register Now</Link></p>
+            <p>Not registered yet? <Link href={"#"} className="text-blue-balloons-secondary-light dark:text-blue-link-dark">Register Now</Link></p>
 
             <button type="submit" className="text-fore-blue-balloons-light bg-blue-balloons-light rounded-xl px-2 py-1 hover:bg-blue-balloons-light-hover">Login with Credentials</button>
 

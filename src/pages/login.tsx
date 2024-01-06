@@ -32,29 +32,32 @@ export default function Login() {
   let router = useRouter();
 
   return (
-    <div className={`${inter.className} ${nightMode === true ? 'dark' : ''} dark:bg-back-secondary-dark bg-back-light`}>
+    <div className={`${inter.className} ${nightMode === true ? 'dark' : ''} `}>
 
       <Head>
         <title>Next.js Chat App - Set Author</title>
         <meta name="description" content="Set Author" />
       </Head>
-      <main
-        className={`${inter.className} flex flex-col gap-6 px-3 my-6 mx-auto w-full mobile:w-96 tablet:w-1/3 `}
-        >
-        {/* <h1 className='text-2xl text-center font-bold mb-6 text-blue-balloons-light'>User Authorization</h1> */}
-        <HeaderComponent title='User Authorization' transparentBackground={true} />
-        {error && <p className="text-red-500">{error}</p>}
-        <SetDummyUsernameForm setAuthor={setAuthor} setError={setError} setAuthorId={setAuthorId} router={router} />
 
-        <span className='text-xl font-semibold text-center text-fore-tertiary-light'>Or</span>
+      <div className='w-full  dark:bg-back-secondary-dark bg-back-light '>
+        <main
+          className={`${inter.className} flex flex-col gap-6 px-4 mx-auto py-6 mobile:w-96 tablet:w-1/3`}
+          >
+          {/* <h1 className='text-2xl text-center font-bold mb-6 text-blue-balloons-light'>User Authorization</h1> */}
+          <HeaderComponent title='User Authorization' transparentBackground={true} />
+          {error && <p className="text-red-500">{error}</p>}
+          <SetDummyUsernameForm setAuthor={setAuthor} setError={setError} setAuthorId={setAuthorId} router={router} />
 
-        <LoginWithCredentialsForm setErrorMessage={setError} />
+          <span className='text-xl font-semibold text-center text-fore-tertiary-light dark:text-fore-tertiary-dark'>Or</span>
 
-        <span className='text-xl font-semibold text-center text-fore-tertiary-light'>Or</span>
+          <LoginWithCredentialsForm setErrorMessage={setError} />
 
-        <LoginWithOauthForm/>
-        
-      </main>
+          <span className='text-xl font-semibold text-center text-fore-tertiary-light dark:text-fore-tertiary-dark'>Or</span>
+
+          <LoginWithOauthForm/>
+          
+        </main>
+      </div> 
     </div>
   );
 };

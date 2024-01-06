@@ -5,9 +5,9 @@ export default function Document() {
   
   
   return (
-    <Html lang="en" className='m-0 p-0 dark:bg-back-secondary-dark bg-back-light'>
+    <Html lang="en">
       <Head />
-      <body className='m-0 p-0 dark:bg-back-secondary-dark bg-back-light'>
+      <body >
         <Main />
         <NextScript />
       </body>

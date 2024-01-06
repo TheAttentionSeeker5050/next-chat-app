@@ -73,10 +73,10 @@ const SetDummyUsernameForm: React.FC<SetDummyUsernameFormProps> = ({ setAuthor, 
 }
 
     return (
-        <form onSubmit={submitHandler} className="flex flex-col gap-4 dark:text-fore-secondary-dark">
-            <h2 className='text-xl font-semibold text-center text-blue-balloons-secondary-light'>Set dummy username</h2>
+        <form onSubmit={submitHandler} className="flex flex-col gap-4 dark:text-white">
+            <h2 className='text-xl font-semibold text-center text-blue-balloons-secondary-light dark:text-fore-secondary-dark'>Set dummy username</h2>
             <p className="text-center">Enter a dummy username to join the public chat room</p>
-            <input type="text" name="author" id="author" placeholder="Enter author name" className="border-2 pl-3 pr-2 border-fore-secondary-light py-1 rounded-lg" max={30} />
+            <input type="text" name="author" id="author" placeholder="Enter author name" className="border-2 pl-3 pr-2 border-fore-secondary-light py-1 rounded-lg text-input-box-back-dark" max={30} />
             <button type="submit" className="text-fore-blue-balloons-light bg-blue-balloons-light rounded-xl px-2 py-1 hover:bg-blue-balloons-light-hover">Continue with Dummy Credentials</button>
         </form>
     );

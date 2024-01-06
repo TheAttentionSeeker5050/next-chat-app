@@ -195,12 +195,12 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
   }
 
   return (
-    <div className={`${inter.className} ${nightMode === true ? 'dark' : ''} w-screen `}>
+    <div className={`${inter.className} ${nightMode === true ? 'dark' : ''} `}>
       <Head>
         <title>Next.js Chat App - Group Conversation</title>
         <meta name="description" content="Group Conversation" />
       </Head>
-      <main className={`flex flex-col gap-6 min-h-screen`}>
+      <main className={`flex flex-col gap-6 min-h-screen w-full  dark:bg-back-secondary-dark bg-back-light `}>
         
         <HeaderComponent title='Group Conversation'/>
 
