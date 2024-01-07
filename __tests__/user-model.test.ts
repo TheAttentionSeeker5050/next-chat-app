@@ -3,7 +3,7 @@ import {describe, expect, test, it, beforeAll, afterAll} from '@jest/globals';
 
 // import our functions to test and validate
 // the model functions are imported from utils/models
-import { createUser, deleteUser, getUserByUsername } from "@/utils/models/User.model";
+import { UserProvider, createUser, deleteUser, getUserByUsername } from "@/utils/models/User.model";
 import { Db, MongoClient, MongoClientOptions } from "mongodb";
 import { afterEach } from "node:test";
 
@@ -44,7 +44,7 @@ describe("Test User Model", () => {
 
     try {
       // Create a user
-      const newUser = await createUser(mockUser.username, connection, db);
+      const newUser = await createUser(mockUser.username, UserProvider.DUMMY_USER, connection, db);
       
       // Assert that the user is created successfully
       expect(newUser.username).toBe('testUser');

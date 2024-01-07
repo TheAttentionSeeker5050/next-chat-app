@@ -3,10 +3,22 @@ import { ObjectId, InsertOneResult, MongoClient, Db } from 'mongodb';
 import { connect } from '@/utils/mongoDbDriver';
 // import { ConversationModel } from '@/utils/models/Conversation.model';
 
+// enum for the user provider
+export enum UserProvider {
+  DUMMY_USER = 'dummy-user',
+  GOOGLE = 'google',
+  FACEBOOK = 'facebook',
+  GITHUB = 'github',
+  TWITTER = 'twitter',
+  MICROSOFT = 'microsoft',
+  EMAIL = 'email',
+  APPLE = 'apple',
+}
 // the user model definition ---------------------------------
 export interface UserModel {
   _id: ObjectId;
   username: string;
+  provider: UserProvider;
 }
 
 // the user model insert result object
@@ -14,7 +26,7 @@ type CreateUserResult = InsertOneResult<UserModel>;
   
 // the user model crud operations ----------------------------
 // create a new user
-export async function createUser(iUsername: string, client?: MongoClient, db?: Db): Promise<UserModel> {
+export async function createUser(iUsername: string, provider: string, client?: MongoClient, db?: Db): Promise<UserModel> {
   
 
   if (!db) {
@@ -42,6 +54,7 @@ export async function createUser(iUsername: string, client?: MongoClient, db?: D
     const result: CreateUserResult = await collection.insertOne({
       username: iUsername,
       _id: new ObjectId(),
+      provider: provider as UserProvider,
     });    
     
     // make sure that the user is created successfully

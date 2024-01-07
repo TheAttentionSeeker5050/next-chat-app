@@ -1,6 +1,6 @@
 // an api handler to set (just POST) author name, we will use the UserModel for this in the utils 
 
-import { createUser, UserModel } from '@/utils/models/User.model';
+import { createUser, UserModel, UserProvider } from '@/utils/models/User.model';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 
@@ -19,7 +19,7 @@ export default async function handler(
         // connect to the database using the connect function
         let { db, client } = await connect();
 
-        const user = await createUser(username, client, db);
+        const user = await createUser(username, UserProvider.DUMMY_USER, client, db);
 
         // close the database connection
         await client.close();
