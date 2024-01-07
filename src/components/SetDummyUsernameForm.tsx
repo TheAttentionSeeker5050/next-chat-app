@@ -1,4 +1,5 @@
 import { saveToLocalStorage } from "@/context/localStorageHandlers";
+import { UserModel } from "@/utils/models/User.model";
 import { validateAuthorName } from "@/utils/validators/validateAuthorName";
 import { NextRouter } from "next/router";
 import { FormEvent, FormEventHandler } from "react";
@@ -53,23 +54,29 @@ const SetDummyUsernameForm: React.FC<SetDummyUsernameFormProps> = ({ setAuthor, 
     }
 
     // if response json contains user
-    const user = await res.json() as { _id: string; username: string; };
+    const user = await res.json() as { error?: string; user?: UserModel };
 
-    if (!user) {
-      setError('Could not set the author');
+    if (user.error) {
+      setError('Could not set the dummy username:' + user.error);
       return;
     }
 
-    // set app context author
-    setAuthor(user.username);
-    setAuthorId(user._id);
+    if (!user.user) {
+      setError('Something went wrong while setting the dummy username');
+      return;
+    } else {
 
-    // use the localstorage to set the author using our methods inside context dir
-    saveToLocalStorage('author', user.username);
-    saveToLocalStorage('authorId', user._id);
-
-    // use the navigate hook to redirect to set-author page
-    await router.push('/', undefined, { shallow: true });
+      // set app context author
+      setAuthor(user.user.username);
+      // setAuthorId(user._id);
+      
+      // use the localstorage to set the author using our methods inside context dir
+      saveToLocalStorage('author', user.user.username);
+      // saveToLocalStorage('authorId', user._id);
+      
+      // use the navigate hook to redirect to set-author page
+      await router.push('/', undefined, { shallow: true });
+    }
 }
 
     return (

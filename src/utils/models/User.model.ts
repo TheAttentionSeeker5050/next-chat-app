@@ -1,7 +1,5 @@
 // import the mongodb driver methods
 import { ObjectId, InsertOneResult, MongoClient, Db } from 'mongodb';
-import { connect } from '@/utils/mongoDbDriver';
-// import { ConversationModel } from '@/utils/models/Conversation.model';
 
 // enum for the user provider
 export enum UserProvider {
@@ -47,8 +45,18 @@ export async function createUser(iUsername: string, provider: string, client?: M
 
     // if the user already exists, throw an error
     // because of the app's design, we just need to return the user if they already exist
-    if (oldUserWidthSameUsername) {
-      return oldUserWidthSameUsername;
+    if (oldUserWidthSameUsername ) {
+      if (provider === UserProvider.DUMMY_USER) {
+        // if the user is a dummy user, and saved user is dummy user we can just return the user
+        if (oldUserWidthSameUsername.provider === UserProvider.DUMMY_USER) {
+          return oldUserWidthSameUsername;
+        } else {
+          throw new Error('User already exists');
+        }
+      } else if (provider === UserProvider.EMAIL) {
+        // if the user is an email user, and saved user is email user we can just return the user
+        throw new Error('User already exists');
+      }
     }
 
     const result: CreateUserResult = await collection.insertOne({
@@ -93,19 +101,6 @@ export async function deleteUser(userId: string, client?: MongoClient, db?: Db):
   
   // delete the user
   await usersCollection.deleteOne({ _id: new ObjectId(userId) });
-
-  // // delete the user from all conversations
-  // const conversationsCollection = db.collection<ConversationModel>('conversations');
-  // await conversationsCollection.updateMany(
-  //   { 'participants._id': new ObjectId(userId) },
-  //   { $pull: { participants: { _id: new ObjectId(userId) } } }
-  // );
-
-  // // set the admin of all conversations to the first participant
-  // await conversationsCollection.updateMany(
-  //   { 'admin._id': new ObjectId(userId) },
-  //   { $set: { admin: null } }
-  // );
 
 }
 

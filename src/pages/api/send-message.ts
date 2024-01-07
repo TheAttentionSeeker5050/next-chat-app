@@ -7,7 +7,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 // make interface for request body and response body
 interface reqBody {
     message: string;
-    authorId: string;
+    authorId?: string;
     author: string;
     conversationId?: string;
 }
@@ -27,7 +27,7 @@ export default async function handler(
 
         // validate request body with our interface
         const body: reqBody = req.body;
-        if (!body.message || !body.authorId || !body.author) {
+        if (!body.message || !body.author) {
             res.status(400).json({ success: false, error: 'Invalid request body' });
             return;
         }
@@ -51,7 +51,7 @@ export default async function handler(
 
 }
 
-export const addNewMessageToDatabase = (message: string, author: string, authorId: string, conversationId?: string, database?: Database) => {
+export const addNewMessageToDatabase = (message: string, author: string, authorId?: string, conversationId?: string, database?: Database) => {
     if (!conversationId) {
       conversationId = 'default';
     }
@@ -62,14 +62,15 @@ export const addNewMessageToDatabase = (message: string, author: string, authorI
 
     const messageListRef =ref(database, 'conversations/' + conversationId + '/messages/');
     const newMessageRef = push(messageListRef);
+
     set(newMessageRef, {
         message: message,
-      userId: authorId,
-      username: author,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      contentType: MessageContentType.TEXT,
-      _id: newMessageRef.key
+        userId: authorId,
+        username: author,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        contentType: MessageContentType.TEXT,
+        _id: newMessageRef.key
     });
 
     off(newMessageRef);

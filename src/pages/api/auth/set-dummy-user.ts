@@ -8,10 +8,14 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { connect } from '@/utils/mongoDbDriver';
 import { Db, MongoClient, MongoClientOptions } from 'mongodb';
 
+interface ResponseBody {
+    error?: string;
+    user?: UserModel;
+}
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<UserModel>
+    res: NextApiResponse<ResponseBody>
 ) {
     if (req.method === 'POST') {
         const { username } = req.body;
@@ -19,12 +23,17 @@ export default async function handler(
         // connect to the database using the connect function
         let { db, client } = await connect();
 
-        const user = await createUser(username, UserProvider.DUMMY_USER, client, db);
+        try {
 
-        // close the database connection
-        await client.close();
-
-        res.status(200).json(user);
+            const user = await createUser(username, UserProvider.DUMMY_USER, client, db);
+            
+            // close the database connection
+            await client.close();
+            
+            res.status(200).json({ user: user });
+        } catch (error : any) {
+            res.status(500).json({ error: error.message });
+        }
         return;
     } else {
         // return method not allowed

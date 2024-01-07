@@ -56,15 +56,15 @@ export default function Home({ messages}: {messages: MessageModelFirebase[]}) {
   
   useEffect(() => {
     
-    if (author === '' || authorId === '') {
+    if (author === '') {
       // lookout on localstorage for author value, using the getFromLocalStorage function
       const authorFromLocalStorage = localStorage.getItem('author');
-      const authorIdFromLocalStorage = localStorage.getItem('authorId');
+      // const authorIdFromLocalStorage = localStorage.getItem('authorId');
 
-      if (authorFromLocalStorage && authorIdFromLocalStorage) {
+      if (authorFromLocalStorage) {
         // set the author in the context
         setAuthor(authorFromLocalStorage);
-        setAuthorId(authorIdFromLocalStorage);
+        // setAuthorId(authorIdFromLocalStorage);
       } else {
         // use the navigate hook to redirect to set-author page if author is empty
         router.push('/login', undefined, { shallow: true });
