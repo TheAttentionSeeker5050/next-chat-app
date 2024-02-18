@@ -98,3 +98,7 @@ the firebase.json emulators config.
  {"metadata":{"emulator":{"name":"database"},"message":"21:11:22.034 [NamespaceSystem-akka.actor.default-dispatcher-25] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.\n"}}
 [debug] [2024-02-18T01:11:30.120Z] 21:11:30.120 [NamespaceSystem-akka.actor.default-dispatcher-13] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.
  {"metadata":{"emulator":{"name":"database"},"message":"21:11:30.120 [NamespaceSystem-akka.actor.default-dispatcher-13] WARN com.firebase.server.forge.App$ - Received service account token admin, assuming ownership.\n"}}
+[debug] [2024-02-18T01:11:43.117Z] 21:11:43.116 [NamespaceSystem-blocking-namespace-operation-dispatcher-34] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+ {"metadata":{"emulator":{"name":"database"},"message":"21:11:43.116 [NamespaceSystem-blocking-namespace-operation-dispatcher-34] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active\n"}}
+[debug] [2024-02-18T01:11:43.435Z] 21:11:43.435 [NamespaceSystem-blocking-namespace-operation-dispatcher-34] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active
+ {"metadata":{"emulator":{"name":"database"},"message":"21:11:43.435 [NamespaceSystem-blocking-namespace-operation-dispatcher-34] INFO com.firebase.core.namespace.StateManager - Namespace next-chat-app-f0e97 status Active to Active\n"}}
