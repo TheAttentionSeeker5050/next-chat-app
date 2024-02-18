@@ -93,10 +93,21 @@ export default function SetAuthor() {
       <main
         className={`${inter.className} flex flex-col justify-center gap-8 items-center mt-10`}
         >
-        <h1 className='text-2xl'>Set Author Name</h1>
+        <h1 className='text-3xl'>Authenticate</h1>
+        <h2 className='text-2xl'>Set Author Name</h2>
         <SetAuthorForm author={author} setAuthor={setAuthor} submitHandler={submitHandler}/> 
 
-        {error && <p className="text-red-500">{error}</p>}
+        <h2 className='text-2xl'>Other Options</h2>
+        {/* authenticate using credentials */}
+        <div className='flex flex-col gap-3 text-center dark:text-fore-secondary-dark'>
+
+          <a href='/login' className='text-fore-blue-balloons-light bg-blue-balloons-light rounded-xl px-6 py-2 hover:bg-blue-balloons-light-hover'>Login With Credentials</a>
+          <a href='/register' className='text-fore-blue-balloons-light bg-blue-balloons-light rounded-xl px-6 py-2 hover:bg-blue-balloons-light-hover'>Register</a>
+
+          {/* dummy login */}
+          <a href='/dummy-login' className='text-fore-blue-balloons-light bg-blue-balloons-light rounded-xl px-6 py-2 hover:bg-blue-balloons-light-hover'>Login as Dummy User</a>
+          {error && <p className="text-red-500">{error}</p>}
+          </div>
       </main>
     </>
   );
