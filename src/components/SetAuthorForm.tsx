@@ -6,7 +6,7 @@ interface SetAuthorFormProps {
     author: string;
     setAuthor: (newAuthor: string) => void;
     submitHandler: FormEventHandler<HTMLFormElement>;
-  }
+}
 
 // setAuthorReusableComponent
 const SetAuthorForm: React.FC<SetAuthorFormProps> = ({ author, setAuthor, submitHandler }) => {
