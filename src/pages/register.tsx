@@ -7,11 +7,15 @@ import RegisterForm from '@/components/RegisterForm';
 import { validateEmail } from '@/utils/validators/validateEmail';
 import { validatePassword } from '@/utils/validators/validatePassword';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const inter = Inter({ subsets: ['latin'] });
 
 
 const Register: NextPage = ({}) => {
+
+    // declare the router
+    const router = useRouter();
 
     // the error state
     const [error, setError] = useState<string | null>(null);
@@ -45,7 +49,31 @@ const Register: NextPage = ({}) => {
                 return;
             }
 
-            alert('Valid email and password');
+            // alert('Valid email and password');
+            // attempt to fetch the server POST to /api/auth/register
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            });
+
+            // if the response is not ok, throw an error
+            if (!response.ok) {
+                throw new Error('Could not register');
+            }
+
+            // if the response is ok, redirect to the login page
+            // use next router to redirect to the login page
+            router.push('/login');
+            
+            // print the data for testing
+            const data = await response.json();
+            console.log('data:', data);
 
 
         } catch (error) {
