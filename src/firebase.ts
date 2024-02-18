@@ -47,10 +47,15 @@ if (process.env.NODE_ENV === 'development') {
     if (process.env.FIREBASE_DATABASE_EMULATOR_HOST?.length) {
         console.log('Already connected to the emulator');
     } else {
+        try {
         connectDatabaseEmulator(getDatabase(
             firebaseApp
         ), '127.0.0.1', 9000, { mockUserToken: "admin" });
+        } catch (e) {
+            console.log('Emulator already connected');
+            // console.log(e);
         }
+    }
 } else {
         
     firebaseApp = initializeApp(firebaseConfig);
